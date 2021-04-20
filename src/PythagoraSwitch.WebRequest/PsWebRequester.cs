@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.NetworkInformation;
-using System.Text.Json;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
@@ -17,15 +16,21 @@ namespace PythagoraSwitch.WebRequest
         private readonly ILogger _logger;
         private readonly IPsNetworkAccess _networkAccess;
         private readonly IPsConfig _config;
+        private readonly IPsSerializer _serializer;
 
         private readonly Queue<Request> _requestQueue;
         public bool Doing { get; private set; }
 
-        public PsWebRequester(ILogger logger, IPsNetworkAccess networkAccess, IPsConfig config)
+        public PsWebRequester(ILogger logger, IPsNetworkAccess networkAccess) : this(logger, networkAccess, new PsDefaultConfig(), new PsJsonSerializer())
+        {
+        }
+
+        public PsWebRequester(ILogger logger, IPsNetworkAccess networkAccess, IPsConfig config, IPsSerializer serializer)
         {
             _logger = logger;
             _networkAccess = networkAccess;
             _config = config;
+            _serializer = serializer;
             _requestQueue = new Queue<Request>();
             WatchRequestQueue();
         }
@@ -36,7 +41,7 @@ namespace PythagoraSwitch.WebRequest
             {
                 if (_requestQueue.Count == 0)
                 {
-                    await Task.Delay(20);
+                    await Task.Delay(_config.QueWatchDelayMilliseconds);
                     continue;
                 }
 
@@ -77,7 +82,7 @@ namespace PythagoraSwitch.WebRequest
                     }
                     else
                     {
-                       (httpResponse, error) = HandleResponse<TRes>(responseMessage);
+                       (httpResponse, error) = _serializer.Deserialize<TRes>(responseMessage);
                     }
 
                     isDone = true;
@@ -104,9 +109,13 @@ namespace PythagoraSwitch.WebRequest
             var message = string.Empty;
             async Task<IErrors> RequestTask()
             {
-                var jsonObject = JsonSerializer.Serialize(body);
-                var content = new StringContent(jsonObject);
-                _logger.LogInformation($"[Http] REQUEST method:POST url:{url} body:{jsonObject}");
+                var (str, serializedError) = _serializer.Serialize(body);
+                if (Errors.IsOccurred(serializedError))
+                {
+                    return serializedError;
+                }
+                var content = new StringContent(str);
+                _logger.LogInformation($"[Http] REQUEST method:POST url:{url}");
                 using var client = CreateClient();
                 using var responseMessage = await client.PostAsync(url, content);
                 _logger.LogInformation(
@@ -193,7 +202,7 @@ namespace PythagoraSwitch.WebRequest
                     }
                     else
                     {
-                        (httpResponse, error) = HandleResponse<TRes>(responseMessage);
+                        (httpResponse, error) = _serializer.Deserialize<TRes>(responseMessage);
                     }
                     isDone = true;  
                 }
@@ -202,32 +211,16 @@ namespace PythagoraSwitch.WebRequest
             _requestQueue.Enqueue(request);
             while (!isDone)
             {
-                await Task.Delay(100);
+                await Task.Delay(50);
             }
 
             return (httpResponse, error);
         }
-
-        private (TRes, IErrors) HandleResponse<TRes>(string message)
-            where TRes : IPsWebResponseContent
-        {
-            TRes httpResponse = default;
-            
-            var error =  Errors.Try(() =>
-            {
-                _logger.LogInformation($"[Http] RESPONSE content: {message}");
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                };
-                httpResponse = JsonSerializer.Deserialize<TRes>(message, options);
-            });
-            return (httpResponse, error);
-        }
+        
 
         // This method must be in a class in a platform project, even if
         // the HttpClient object is constructed in a shared project.
-        HttpClientHandler GetInsecureHandler()
+        private static HttpClientHandler GetInsecureHandler()
         {
             return new HttpClientHandler
             {

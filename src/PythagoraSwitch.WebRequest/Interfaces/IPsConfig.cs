@@ -5,5 +5,6 @@ namespace PythagoraSwitch.WebRequest.Interfaces
     public interface IPsConfig
     {
         TimeSpan Timeout { get; }
+        int QueWatchDelayMilliseconds { get; }
     }
 }
