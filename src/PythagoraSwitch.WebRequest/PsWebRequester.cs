@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.NetworkInformation;
@@ -13,52 +12,36 @@ namespace PythagoraSwitch.WebRequest
 {
     public class PsWebRequester : IPsWebRequester, IPsWebRequesting
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<PsWebRequester> _logger;
         private readonly IPsNetworkAccess _networkAccess;
         private readonly IPsConfig _config;
         private readonly IPsSerializer _serializer;
+        private readonly IPsRequestQueue _requestQueue;
 
-        private readonly Queue<Request> _requestQueue;
         public bool Doing { get; private set; }
 
-        public PsWebRequester(ILogger logger, IPsNetworkAccess networkAccess) : this(logger, networkAccess, new PsDefaultConfig(), new PsJsonSerializer())
+        public PsWebRequester(ILogger<PsWebRequester> logger, IPsNetworkAccess networkAccess) : this(logger, networkAccess, new PsDefaultConfig(), new PsJsonSerializer(), new PsRequestQueue())
         {
         }
 
-        public PsWebRequester(ILogger logger, IPsNetworkAccess networkAccess, IPsConfig config, IPsSerializer serializer)
+        public PsWebRequester(ILogger<PsWebRequester> logger, IPsNetworkAccess networkAccess, IPsConfig config, IPsSerializer serializer, IPsRequestQueue requestQueue)
         {
             _logger = logger;
             _networkAccess = networkAccess;
             _config = config;
             _serializer = serializer;
-            _requestQueue = new Queue<Request>();
-            WatchRequestQueue();
+            _requestQueue = requestQueue;
+            _requestQueue.WatchRequestQueue(_config.QueueWatchDelayMilliseconds, HandleRequest);
         }
 
-        private async void WatchRequestQueue()
+        private async void HandleRequest(IPsRequest request)
         {
-            while (true)
-            {
-                if (_requestQueue.Count == 0)
-                {
-                    await Task.Delay(_config.QueWatchDelayMilliseconds);
-                    continue;
-                }
-
-                OnChangeRequesting?.Invoke(Doing = true);
-                var request = _requestQueue.Dequeue();
-                var (responseMessage, error) = await request.HandleTask;
-                request.OnResponse((responseMessage, error));
-                OnChangeRequesting?.Invoke(Doing = false);
-            }
+            OnChangeRequesting?.Invoke(Doing = true);
+            var (responseMessage, error) = await request.HandleTask;
+            request.OnResponse((responseMessage, error));
+            OnChangeRequesting?.Invoke(Doing = false);
         }
 
-        private class Request
-        {
-            public Task<(string, IErrors)> HandleTask { get; set; }
-            public Action<(string, IErrors)> OnResponse { get; set; }
-        }
-        
         public async Task<(TRes, IErrors)> PostAsync<TReq, TRes>(string url, TReq body) 
             where TReq : IPsWebPostRequestContent where TRes : IPsWebResponseContent
         {

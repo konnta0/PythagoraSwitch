@@ -6,6 +6,6 @@ namespace PythagoraSwitch.WebRequest
     public class PsDefaultConfig : IPsConfig
     {
         public TimeSpan Timeout => new TimeSpan(0, 0, 30);
-        public int QueWatchDelayMilliseconds => 20;
+        public int QueueWatchDelayMilliseconds => 20;
     }
 }
