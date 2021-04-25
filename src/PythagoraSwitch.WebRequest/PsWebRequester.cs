@@ -213,7 +213,7 @@ namespace PythagoraSwitch.WebRequest
 
         private IErrors ValidNetworkAccess()
         {
-            return !_networkAccess.IsValid() ? Errors.Nothing() : Errors.New<NetworkInformationException>();
+            return _networkAccess.IsValid() ? Errors.Nothing() : Errors.New<NetworkInformationException>();
         }
 
         private HttpClient CreateClient()
