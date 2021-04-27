@@ -17,20 +17,22 @@ namespace PythagoraSwitch.WebRequest
         private readonly IPsConfig _config;
         private readonly IPsSerializer _serializer;
         private readonly IPsRequestQueue _requestQueue;
-
+        private readonly IPsHttpClientFactory _httpClientFactory;
+        
         public bool Doing { get; private set; }
 
-        public PsWebRequester(ILogger<PsWebRequester> logger, IPsNetworkAccess networkAccess) : this(logger, networkAccess, new PsDefaultConfig(), new PsJsonSerializer(), new PsRequestQueue())
+        public PsWebRequester(ILogger<PsWebRequester> logger, IPsNetworkAccess networkAccess, IPsHttpClientFactory httpClientFactory) : this(logger, networkAccess, new PsDefaultConfig(), new PsJsonSerializer(), new PsRequestQueue(), httpClientFactory)
         {
         }
 
-        public PsWebRequester(ILogger<PsWebRequester> logger, IPsNetworkAccess networkAccess, IPsConfig config, IPsSerializer serializer, IPsRequestQueue requestQueue)
+        public PsWebRequester(ILogger<PsWebRequester> logger, IPsNetworkAccess networkAccess, IPsConfig config, IPsSerializer serializer, IPsRequestQueue requestQueue, IPsHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _networkAccess = networkAccess;
             _config = config;
             _serializer = serializer;
             _requestQueue = requestQueue;
+            _httpClientFactory = httpClientFactory;
             _requestQueue.WatchRequestQueue(_config.QueueWatchDelayMilliseconds, HandleRequest);
         }
 
@@ -218,11 +220,12 @@ namespace PythagoraSwitch.WebRequest
 
         private HttpClient CreateClient()
         {
-            var client = new HttpClient();;
+            
 #if DEBUG
             var insecureHandler = GetInsecureHandler();
-
-            client = new HttpClient(insecureHandler);
+            var client = _httpClientFactory.Create(insecureHandler);
+#else
+            var client = _httpClientFactory.Create();
 #endif
             client.Timeout = _config.Timeout;
             return client;

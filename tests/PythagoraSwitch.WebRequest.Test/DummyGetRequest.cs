@@ -19,6 +19,6 @@ namespace PythagoraSwitch.WebRequest.Test
     
     public class DummyGetResponseContent : IPsWebResponseContent
     {
-        
+        public string hoge { get; set; }
     }
 }
