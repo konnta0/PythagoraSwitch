@@ -26,6 +26,14 @@ namespace PythagoraSwitch.WebRequest.Test
             var config = new Mock<IPsConfig>();
             config.Setup(x => x.Timeout).Returns(new TimeSpan(0, 0, 30));
             config.Setup(x => x.QueueWatchDelayMilliseconds).Returns(20);
+            config.Setup(x => x.RetryCount).Returns(1);
+            config.Setup(x => x.RetryHttpStatusCodes).Returns(new HttpStatusCode[]
+            {
+                HttpStatusCode.TooManyRequests,
+                HttpStatusCode.ServiceUnavailable
+            });
+            config.Setup(x => x.RetrySleepDurationProvider)
+                .Returns(retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             return config;
         }
 
@@ -65,15 +73,15 @@ namespace PythagoraSwitch.WebRequest.Test
             Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken);
         }
 
-        public static Mock<IPsHttpClientFactory> CreatePsHttpClientFactoryMock()
+        public static Mock<IPsHttpClientFactory> CreatePsHttpClientFactoryMock(HttpMethod httpMethod, string pathAndQuery)
         {
             var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock.Protected()
                 .As<IHttpMessageHandler>()
                 .Setup(m => m.SendAsync(
                     It.Is<HttpRequestMessage>(r =>
-                        r.RequestUri.PathAndQuery.Contains("/api/dummy/get") &&
-                        r.Method == HttpMethod.Get
+                        r.RequestUri.PathAndQuery.Contains(pathAndQuery) &&
+                        r.Method == httpMethod
                     ),
                     It.IsAny<CancellationToken>()))
                 .Returns(() =>
@@ -86,6 +94,8 @@ namespace PythagoraSwitch.WebRequest.Test
                 });
             var factoryMock = new Mock<IPsHttpClientFactory>();
             factoryMock.Setup(m => m.Create(It.IsAny<HttpClientHandler>()))
+                .Returns(() => new HttpClient(handlerMock.Object, false));
+            factoryMock.Setup(m => m.Create())
                 .Returns(() => new HttpClient(handlerMock.Object, false));
             return factoryMock;
         }
