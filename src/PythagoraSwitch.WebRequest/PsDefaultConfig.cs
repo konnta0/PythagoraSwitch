@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
@@ -6,6 +7,15 @@ namespace PythagoraSwitch.WebRequest
     public class PsDefaultConfig : IPsConfig
     {
         public TimeSpan Timeout => new TimeSpan(0, 0, 30);
+        public int RetryCount => 3;
+        public HttpStatusCode[] RetryHttpStatusCodes => new HttpStatusCode[]
+        {
+            HttpStatusCode.TooManyRequests,
+            HttpStatusCode.ServiceUnavailable
+        };
+
+        public Func<int, TimeSpan> RetrySleepDurationProvider =>
+            retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)); 
         public int QueueWatchDelayMilliseconds => 20;
     }
 }

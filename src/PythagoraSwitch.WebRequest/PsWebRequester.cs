@@ -6,6 +6,7 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
+using Polly;
 using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
@@ -44,7 +45,7 @@ namespace PythagoraSwitch.WebRequest
             OnChangeRequesting?.Invoke(Doing = false);
         }
 
-        public async Task<(TRes, IErrors)> PostAsync<TReq, TRes>(string url, TReq body) 
+        public async Task<(TRes, IErrors)> PostAsync<TReq, TRes>(string url, TReq body, IPsWebRequestConfig overwriteConfig = null) 
             where TReq : IPsWebPostRequestContent where TRes : IPsWebResponseContent
         {
             var validNetworkAccess = ValidNetworkAccess();
@@ -82,7 +83,7 @@ namespace PythagoraSwitch.WebRequest
             return (httpResponse, error);
         }
 
-        private async Task<(string, IErrors)> RequestPostTask<TReq>(string url, TReq body)
+        private async Task<(string, IErrors)> RequestPostTask<TReq>(string url, TReq body, IPsWebRequestConfig overwriteConfig = null)
             where TReq : IPsWebPostRequestContent
         {
             var validNetworkAccess = ValidNetworkAccess();
@@ -90,6 +91,7 @@ namespace PythagoraSwitch.WebRequest
             {
                 return (default, validNetworkAccess);
             }
+            var requestConfig = overwriteConfig ?? _config; 
 
             var message = string.Empty;
             async Task<IErrors> RequestTask()
@@ -101,8 +103,11 @@ namespace PythagoraSwitch.WebRequest
                 }
                 var content = new StringContent(str);
                 _logger.LogInformation($"[Http] REQUEST method:POST url:{url}");
-                using var client = CreateClient();
-                using var responseMessage = await client.PostAsync(url, content);
+                var client = CreateClient();
+                using var responseMessage = await Policy
+                    .HandleResult<HttpResponseMessage>(x => requestConfig.RetryHttpStatusCodes.Contains(x.StatusCode))
+                    .WaitAndRetryAsync(requestConfig.RetryCount, requestConfig.RetrySleepDurationProvider)
+                    .ExecuteAsync(() => client.PostAsync(url, content));
                 _logger.LogInformation(
                     $"[Http] RESPONSE method:POST url:{url} statusCode:{responseMessage.StatusCode}");
                 if (!responseMessage.IsSuccessStatusCode)
@@ -125,7 +130,7 @@ namespace PythagoraSwitch.WebRequest
             return (message, Errors.Nothing());
         }
 
-        private async Task<(string, IErrors)> RequestGetTask<TGetReq>(string url, TGetReq queryObject)
+        private async Task<(string, IErrors)> RequestGetTask<TGetReq>(string url, TGetReq queryObject, IPsWebRequestConfig overwriteConfig = null)
             where TGetReq : IPsWebGetRequestContent
         {
             var validNetworkAccess = ValidNetworkAccess();
@@ -133,14 +138,19 @@ namespace PythagoraSwitch.WebRequest
             {
                 return (default, validNetworkAccess);
             }
+
+            var requestConfig = overwriteConfig ?? _config; 
             var requestUrl = $"{url}&{queryObject.ToQueryString()}";
 
             _logger.LogInformation($"[Http] REQUEST method:GET url:{requestUrl}");
             var message = string.Empty;
             async Task<IErrors> RequestTask()
             {
-                using var client = CreateClient();
-                using var responseMessage = await client.GetAsync(requestUrl);
+                var client = CreateClient();
+                using var responseMessage = await Policy
+                    .HandleResult<HttpResponseMessage>(x => requestConfig.RetryHttpStatusCodes.Contains(x.StatusCode))
+                    .WaitAndRetryAsync(requestConfig.RetryCount, requestConfig.RetrySleepDurationProvider)
+                    .ExecuteAsync(() => client.GetAsync(requestUrl));
                 _logger.LogInformation(
                     $"[Http] RESPONSE method:GET url:{requestUrl} statusCode:{responseMessage.StatusCode}");
                 if (!responseMessage.IsSuccessStatusCode)
@@ -163,7 +173,7 @@ namespace PythagoraSwitch.WebRequest
             return (message, Errors.Nothing());
         }
 
-        public async Task<(TRes, IErrors)> GetAsync<TGetReq, TRes>(string url, TGetReq queryObject)
+        public async Task<(TRes, IErrors)> GetAsync<TGetReq, TRes>(string url, TGetReq queryObject, IPsWebRequestConfig overwriteConfig = null)
             where TGetReq : IPsWebGetRequestContent where TRes : IPsWebResponseContent
         {
             var validNetworkAccessError = ValidNetworkAccess();
