@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Net.Http;
 using System.Net.NetworkInformation;
+using System.Text;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
@@ -101,18 +102,17 @@ namespace PythagoraSwitch.WebRequest
                 {
                     return serializedError;
                 }
-                var content = new StringContent(str);
-                _logger.LogInformation($"[Http] REQUEST method:POST url:{url}");
-                var client = CreateClient();
+                _logger.LogInformation("[Http] REQUEST method:POST url:{Url}", url);
+                var client = CreateClient(requestConfig);
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url) {Content = new StringContent(str)};
+
                 using var responseMessage = await Policy
                     .HandleResult<HttpResponseMessage>(x => requestConfig.RetryHttpStatusCodes.Contains(x.StatusCode))
                     .WaitAndRetryAsync(requestConfig.RetryCount, requestConfig.RetrySleepDurationProvider)
-                    .ExecuteAsync(() => client.PostAsync(url, content));
-                _logger.LogInformation(
-                    $"[Http] RESPONSE method:POST url:{url} statusCode:{responseMessage.StatusCode}");
+                    .ExecuteAsync(() => client.SendAsync(requestMessage));
+                _logger.LogInformation("[Http] RESPONSE method:POST url:{Url} statusCode:{Status}", url, responseMessage.StatusCode);
                 if (!responseMessage.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation($"[Http] RESPONSE method:POST url:{url} statusCode:{responseMessage.StatusCode}");
                     return Errors.New(new Exception($"request failed status code {responseMessage.StatusCode}"));
                 }
 
@@ -142,21 +142,21 @@ namespace PythagoraSwitch.WebRequest
             var requestConfig = overwriteConfig ?? _config; 
             var requestUrl = $"{url}&{queryObject.ToQueryString()}";
 
-            _logger.LogInformation($"[Http] REQUEST method:GET url:{requestUrl}");
+            _logger.LogInformation("[Http] REQUEST method:GET url:{Url}", requestUrl);
             var message = string.Empty;
             async Task<IErrors> RequestTask()
             {
-                var client = CreateClient();
+                var client = CreateClient(requestConfig);
+                var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+
                 using var responseMessage = await Policy
                     .HandleResult<HttpResponseMessage>(x => requestConfig.RetryHttpStatusCodes.Contains(x.StatusCode))
                     .WaitAndRetryAsync(requestConfig.RetryCount, requestConfig.RetrySleepDurationProvider)
-                    .ExecuteAsync(() => client.GetAsync(requestUrl));
+                    .ExecuteAsync(() => client.SendAsync(requestMessage));
                 _logger.LogInformation(
-                    $"[Http] RESPONSE method:GET url:{requestUrl} statusCode:{responseMessage.StatusCode}");
+                    "[Http] RESPONSE method:GET url:{Url} statusCode:{Status}", requestUrl, responseMessage.StatusCode);
                 if (!responseMessage.IsSuccessStatusCode)
                 {
-                    _logger.LogInformation(
-                        $"[Http] RESPONSE failed method:GET url:{requestUrl} statusCode:{responseMessage.StatusCode}");
                     return Errors.New(new Exception($"request failed status code {responseMessage.StatusCode}"));
                 }
 
@@ -212,32 +212,15 @@ namespace PythagoraSwitch.WebRequest
             return (httpResponse, error);
         }
         
-
-        // This method must be in a class in a platform project, even if
-        // the HttpClient object is constructed in a shared project.
-        private static HttpClientHandler GetInsecureHandler()
-        {
-            return new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
-            };;
-        }
-
         private IErrors ValidNetworkAccess()
         {
             return _networkAccess.IsValid() ? Errors.Nothing() : Errors.New<NetworkInformationException>();
         }
 
-        private HttpClient CreateClient()
+        private HttpClient CreateClient(IPsWebRequestConfig config)
         {
-            
-#if DEBUG
-            var insecureHandler = GetInsecureHandler();
-            var client = _httpClientFactory.Create(insecureHandler);
-#else
             var client = _httpClientFactory.Create();
-#endif
-            client.Timeout = _config.Timeout;
+            client.Timeout = config.Timeout;
             return client;
         }
 
