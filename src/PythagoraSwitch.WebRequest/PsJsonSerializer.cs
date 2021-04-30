@@ -6,6 +6,8 @@ namespace PythagoraSwitch.WebRequest
 {
     public class PsJsonSerializer : IPsSerializer
     {
+        public string ContentType => "application/json";
+
         public (string, IErrors) Serialize<TReq>(TReq req) where TReq : IPsWebRequestContent
         {
             var str = string.Empty;
