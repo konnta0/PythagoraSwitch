@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,7 +60,7 @@ namespace PythagoraSwitch.WebRequest
             IErrors error = null;
             var request = new Request
             {
-                HandleTask = RequestPostTask(url, body),
+                HandleTask = RequestPostTask(url, body, overwriteConfig),
                 OnResponse = tuple =>
                 {
                     var (responseMessage, requestError) = tuple;
@@ -104,7 +105,12 @@ namespace PythagoraSwitch.WebRequest
                 }
                 _logger.LogInformation("[Http] REQUEST method:POST url:{Url}", url);
                 var client = CreateClient(requestConfig);
-                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url) {Content = new StringContent(str)};
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url) {Content = new StringContent(str, Encoding.UTF8, _serializer.ContentType)};
+                foreach (var requestConfigHeader in requestConfig.Headers)
+                {
+                    requestMessage.Headers.Add(requestConfigHeader.Key, requestConfigHeader.Value);
+                }
+                requestMessage.ToString();
 
                 using var responseMessage = await Policy
                     .HandleResult<HttpResponseMessage>(x => requestConfig.RetryHttpStatusCodes.Contains(x.StatusCode))
@@ -142,12 +148,17 @@ namespace PythagoraSwitch.WebRequest
             var requestConfig = overwriteConfig ?? _config; 
             var requestUrl = $"{url}&{queryObject.ToQueryString()}";
 
-            _logger.LogInformation("[Http] REQUEST method:GET url:{Url}", requestUrl);
             var message = string.Empty;
             async Task<IErrors> RequestTask()
             {
                 var client = CreateClient(requestConfig);
                 var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+                foreach (var requestConfigHeader in requestConfig.Headers)
+                {
+                    requestMessage.Headers.Add(requestConfigHeader.Key, requestConfigHeader.Value);
+                }
+
+                _logger.LogInformation("[Http] REQUEST method:GET url:{Url}", requestUrl);
 
                 using var responseMessage = await Policy
                     .HandleResult<HttpResponseMessage>(x => requestConfig.RetryHttpStatusCodes.Contains(x.StatusCode))
@@ -187,7 +198,7 @@ namespace PythagoraSwitch.WebRequest
             IErrors error = null;
             var request = new Request
             {
-                HandleTask = RequestGetTask(url, queryObject),
+                HandleTask = RequestGetTask(url, queryObject, overwriteConfig),
                 OnResponse = tuple =>
                 {
                     var (responseMessage, requestError) = tuple;

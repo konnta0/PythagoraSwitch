@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace PythagoraSwitch.WebRequest.Interfaces
@@ -9,5 +10,6 @@ namespace PythagoraSwitch.WebRequest.Interfaces
         int RetryCount { get; }
         HttpStatusCode[] RetryHttpStatusCodes { get; }
         Func<int, TimeSpan> RetrySleepDurationProvider { get; }
+        IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers { get; }
     }
 }

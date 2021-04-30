@@ -4,7 +4,7 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public class PsJsonSerializer : IPsSerializer
+    public sealed class PsJsonSerializer : IPsSerializer
     {
         public string ContentType => "application/json";
 

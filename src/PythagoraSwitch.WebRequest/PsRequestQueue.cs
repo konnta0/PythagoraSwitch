@@ -12,7 +12,7 @@ namespace PythagoraSwitch.WebRequest
         public Action<(string, IErrors)> OnResponse { get; set; }
     }
 
-    public class PsRequestQueue : IPsRequestQueue
+    public sealed class PsRequestQueue : IPsRequestQueue
     {
         private readonly Queue<IPsRequest> _requestQueue;
 

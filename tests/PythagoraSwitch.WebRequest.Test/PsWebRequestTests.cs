@@ -38,7 +38,7 @@ namespace PythagoraSwitch.WebRequest.Test
             var requester = new PsWebRequester(loggerMock.Object, networkAccess.Object, config.Object, new PsJsonSerializer(), requestQueue.Object, psHttpClientFactoryMock.Object);
             var (response, error) = await requester.PostAsync<DummyPostRequestContent, DummyPostResponseContent>("http://pstest/api/dummy/post", new DummyPostRequestContent());
             tokenSource.Cancel();
-            Assert.False(Errors.IsOccurred(error));
+            Assert.False(Errors.IsOccurred(error), $"message: {error?.Exception.Message} \n trace: {error?.Exception.StackTrace}");
             Assert.NotNull(response);
             Assert.Equal("hogehoge", response.hoge);
         }
