@@ -11,7 +11,7 @@ namespace PythagoraSwitch.WebRequest
         public int RetryCount => 3;
         public HttpStatusCode[] RetryHttpStatusCodes => new HttpStatusCode[]
         {
-            HttpStatusCode.TooManyRequests,
+            (HttpStatusCode)429,
             HttpStatusCode.ServiceUnavailable
         };
 
