@@ -23,11 +23,7 @@ namespace PythagoraSwitch.WebRequest
         private readonly IPsHttpClientFactory _httpClientFactory;
         
         public bool Doing { get; private set; }
-
-        public PsWebRequester(ILogger<PsWebRequester> logger, IPsNetworkAccess networkAccess, IPsHttpClientFactory httpClientFactory) : this(logger, networkAccess, new PsDefaultConfig(), new PsJsonSerializer(), new PsRequestQueue(), httpClientFactory)
-        {
-        }
-
+        
         public PsWebRequester(ILogger<PsWebRequester> logger, IPsNetworkAccess networkAccess, IPsConfig config, IPsSerializer serializer, IPsRequestQueue requestQueue, IPsHttpClientFactory httpClientFactory)
         {
             _logger = logger;
