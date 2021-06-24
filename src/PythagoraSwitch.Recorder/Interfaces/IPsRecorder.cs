@@ -1,12 +1,13 @@
 using System.Threading.Tasks;
+using konnta0.Exceptions;
 
 namespace PythagoraSwitch.Recorder.Interfaces
 {
     public interface IPsRecorder
     {
-        ValueTask Start();
-        ValueTask Stop();
-        ValueTask Export();
-        ValueTask Clear();
+        IErrors Start();
+        IErrors Stop();
+        IErrors Export(string outPath);
+        IErrors Clear();
     }
 }
