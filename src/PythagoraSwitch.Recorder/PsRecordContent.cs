@@ -5,9 +5,9 @@ namespace PythagoraSwitch.Recorder
 {
     public class PsRecordContent : IPsRecordContent
     {
-        public TimeSpan start { get; init; }
-        public TimeSpan end { get; init; }
-        public PythagoraSwitch.WebRequest.Interfaces.IPsWebRequestContent requestContent { get; init; }
-        public PythagoraSwitch.WebRequest.Interfaces.IPsWebResponseContent responseContent { get; init; }
+        public TimeSpan Start { get; init; }
+        public TimeSpan End { get; init; }
+        public PythagoraSwitch.WebRequest.Interfaces.IPsWebRequestContent RequestContent { get; init; }
+        public PythagoraSwitch.WebRequest.Interfaces.IPsWebResponseContent ResponseContent { get; init; }
     }
 }
