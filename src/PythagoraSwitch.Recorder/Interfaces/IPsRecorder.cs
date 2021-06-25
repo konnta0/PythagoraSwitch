@@ -7,7 +7,7 @@ namespace PythagoraSwitch.Recorder.Interfaces
     {
         IErrors Start();
         IErrors Stop();
-        IErrors Export(string outPath);
+        IErrors Export();
         IErrors Clear();
     }
 }

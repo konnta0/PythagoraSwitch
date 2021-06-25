@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using konnta0.Exceptions;
 using PythagoraSwitch.Recorder.Interfaces;
 
@@ -8,43 +7,45 @@ namespace PythagoraSwitch.Recorder
 {
     public class PsRecorder : IPsRecorder
     {
-        private List<PythagoraSwitch.WebRequest.Interfaces.IPsWebRequestContent> _requestContents = new();
-        private bool _isRecording = false;
+        private List<IPsRecordContent> _recordContents = new();
+        private bool _recording;
+        private readonly IPsExporter _exporter;
 
-        public PsRecorder()
+        public PsRecorder(IPsExporter exporter)
         {
+            _exporter = exporter;
         }
 
         public IErrors Clear()
         {
-            _requestContents.Clear();
+            _recordContents.Clear();
             return Errors.Nothing();
         }
 
-        public IErrors Export(string outPath)
+        public IErrors Export()
         {
-            throw new NotImplementedException();
+            return _exporter.Handle(_recordContents);
         }
 
         public IErrors Start()
         {
-            if (_isRecording)
+            if (_recording)
             {
                 return Errors.New("already staring. please call Stop()");
             }
 
-            _isRecording = true;
+            _recording = true;
             return Errors.Nothing();
         }
 
         public IErrors Stop()
         {
-            if (!_isRecording)
+            if (!_recording)
             {
                 return Errors.New("already stopped. please call Start()");
             }
 
-            _isRecording = false;
+            _recording = false;
             return Errors.Nothing();
         }
     }
