@@ -1,10 +1,7 @@
 ﻿using System;
 namespace PythagoraSwitch.Recorder.Interfaces
 {
-    public class IPsRecorderConfig
+    interface IPsRecorderConfig
     {
-        public IPsRecorderConfig()
-        {
-        }
     }
 }

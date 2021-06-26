@@ -15,18 +15,6 @@ namespace PythagoraSwitch.Recorder
         {
             _exporter = exporter;
         }
-
-        public IErrors Clear()
-        {
-            _recordContents.Clear();
-            return Errors.Nothing();
-        }
-
-        public IErrors Export()
-        {
-            return _exporter.Handle(_recordContents);
-        }
-
         public IErrors Start()
         {
             if (_recording)
@@ -48,5 +36,17 @@ namespace PythagoraSwitch.Recorder
             _recording = false;
             return Errors.Nothing();
         }
+
+        public IErrors Clear()
+        {
+            _recordContents.Clear();
+            return Errors.Nothing();
+        }
+
+        public IErrors Export()
+        {
+            return _exporter.Handle(_recordContents);
+        }
+        
     }
 }

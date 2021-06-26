@@ -11,9 +11,9 @@ namespace PythagoraSwitch.Recorder
     public class PsExporter : IPsExporter
     {
         private readonly IPsExporterConfig _config;
-        private ILogger _logger;
+        private readonly ILogger<PsExporter> _logger;
 
-        public PsExporter(IPsExporterConfig config, ILogger logger)
+        public PsExporter(IPsExporterConfig config, ILogger<PsExporter> logger)
         {
             _config = config;
             _logger = logger;
