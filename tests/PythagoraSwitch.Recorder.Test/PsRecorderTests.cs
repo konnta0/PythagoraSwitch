@@ -16,5 +16,19 @@ namespace PythagoraSwitch.Recorder.Test
             Assert.True(Errors.IsOccurred(error));
             Assert.Equal("already staring. please call Stop()", error.Exception.Message);
         }
+
+        [Fact]
+        public void Stop()
+        {
+            var recorder = new PsRecorder(new PsExporter(new DefaultExporterConfig(), LoggerFactory.Create<PsExporter>()));
+
+            // not started
+            var error = recorder.Stop();
+            Assert.True(Errors.IsOccurred(error));
+            Assert.Equal("already stopped. please call Start()", error.Exception.Message);
+
+            _ = recorder.Start();
+            Assert.Equal(Errors.Nothing(), recorder.Stop());
+        }
     }
 }
