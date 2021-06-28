@@ -6,7 +6,7 @@ namespace PythagoraSwitch.Recorder.Test
     public class PsRecorderTests
     {
         [Fact]
-        public void Start()
+        internal void Start()
         {
             var recorder = new PsRecorder(new PsExporter(new DefaultExporterConfig(), LoggerFactory.Create<PsExporter>()));
             Assert.Equal(Errors.Nothing(), recorder.Start());
@@ -18,7 +18,7 @@ namespace PythagoraSwitch.Recorder.Test
         }
 
         [Fact]
-        public void Stop()
+        internal void Stop()
         {
             var recorder = new PsRecorder(new PsExporter(new DefaultExporterConfig(), LoggerFactory.Create<PsExporter>()));
 
