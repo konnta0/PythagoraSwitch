@@ -17,8 +17,22 @@ namespace PythagoraSwitch.Recorder.Test
                 PsRecordContent.Create(
                     new TimeSpan(0),
                     new TimeSpan(1),
-                    new DummyWebContent.DummyRequestContent(),
-                    new DummyWebContent.DummyResponseContent()
+                    new DummyWebContent.DummyRequestContent
+                    {
+                        Id = 123,
+                        innner = new DummyWebContent.InnerObject
+                        {
+                            InnerMessage = "inner_message"
+                        }
+                    },
+                    new DummyWebContent.DummyResponseContent
+                    {
+                        InnerObjects = new List<DummyWebContent.InnerObject>
+                        {
+                            new (){InnerMessage = "list_item1"},
+                            new (){InnerMessage = "list_item2"}
+                        }
+                    }
                 ),
                 PsRecordContent.Create(
                     new TimeSpan(2),
