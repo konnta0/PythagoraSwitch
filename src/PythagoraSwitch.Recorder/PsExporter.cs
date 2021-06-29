@@ -28,7 +28,10 @@ namespace PythagoraSwitch.Recorder
                 {
                     throw serializeError.Exception;
                 }
-                using var writer = File.CreateText($"{_config.outPath}/{_config.fileFormat}");
+
+                var filePath = Path.Combine(_config.OutPath,
+                    $"{_config.FilePrefix}-{DateTime.Now:yyyyMMddHHmmss}.yaml");
+                using var writer = File.CreateText(filePath);
                 writer.Write(text);
             });
 
