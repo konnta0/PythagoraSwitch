@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using konnta0.Exceptions;
 using PythagoraSwitch.Recorder.Interfaces;
 
@@ -7,7 +6,7 @@ namespace PythagoraSwitch.Recorder
 {
     public class PsRecorder : IPsRecorder
     {
-        private List<IPsRecordContent> _recordContents = new();
+        private readonly List<IPsRecordContent> _recordContents = new();
         private bool _recording;
         private readonly IPsExporter _exporter;
 
