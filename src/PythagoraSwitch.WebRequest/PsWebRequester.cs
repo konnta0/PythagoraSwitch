@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +37,7 @@ namespace PythagoraSwitch.WebRequest
         private async void HandleRequest(IPsRequest request)
         {
             OnChangeRequesting?.Invoke(Doing = true);
+            OnStartRequest?.Invoke(request);
             var (responseMessage, error) = await request.HandleTask;
             request.OnResponse((responseMessage, error));
             OnChangeRequesting?.Invoke(Doing = false);
@@ -218,7 +218,9 @@ namespace PythagoraSwitch.WebRequest
 
             return (httpResponse, error);
         }
-        
+
+        public Action<IPsRequest> OnStartRequest { get; set; }
+
         private IErrors ValidNetworkAccess()
         {
             return _networkAccess.IsValid() ? Errors.Nothing() : Errors.New<NetworkInformationException>();
