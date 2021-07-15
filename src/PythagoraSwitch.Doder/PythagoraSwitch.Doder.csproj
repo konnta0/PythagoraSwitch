@@ -27,18 +27,11 @@
     <ExternalConsole>true</ExternalConsole>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Errors, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\packages\konnta0.Errors.0.0.3\lib\netstandard2.0\Errors.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

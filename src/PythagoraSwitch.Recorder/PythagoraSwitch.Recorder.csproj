@@ -10,7 +10,7 @@
     <None Remove="YamlDotNet" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="konnta0.Errors" Version="0.1.0" />
+    <PackageReference Include="konnta0.Errors" Version="0.2.0" />
     <PackageReference Include="PythagoraSwitch.WebRequest" Version="0.0.5" />
     <PackageReference Include="YamlDotNet" Version="11.2.0" />
   </ItemGroup>
