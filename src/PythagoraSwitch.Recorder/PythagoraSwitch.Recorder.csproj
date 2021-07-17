@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>konnta0</Authors>
+    <PackOnBuild>true</PackOnBuild>
+    <Copyright>konnta0</Copyright>
+    <Owners>konnta0</Owners>
+    <Title>PythagoraSwitch.Recorder</Title>
+    <PackageProjectUrl>https://github.com/konnta0/PythagoraSwitch</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,5 +21,8 @@
     <PackageReference Include="konnta0.Errors" Version="0.2.0" />
     <PackageReference Include="PythagoraSwitch.WebRequest" Version="0.0.5" />
     <PackageReference Include="YamlDotNet" Version="11.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+        <None Include="../../LICENSE" Pack="true" PackagePath=""/>
   </ItemGroup>
 </Project>
