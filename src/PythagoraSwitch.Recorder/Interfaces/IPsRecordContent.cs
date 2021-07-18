@@ -5,6 +5,8 @@ namespace PythagoraSwitch.Recorder.Interfaces
     {
         TimeSpan Start { get; init; }
         TimeSpan End { get; init; }
+        string EndPoint { get; init; }
+        string Method { get; init; }
         PythagoraSwitch.WebRequest.Interfaces.IPsWebRequestContent RequestContent { get; init; }
         PythagoraSwitch.WebRequest.Interfaces.IPsWebResponseContent ResponseContent { get; init; }
     }

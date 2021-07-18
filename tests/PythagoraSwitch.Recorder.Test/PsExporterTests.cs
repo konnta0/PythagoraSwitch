@@ -17,6 +17,8 @@ namespace PythagoraSwitch.Recorder.Test
                 PsRecordContent.Create(
                     new TimeSpan(0),
                     new TimeSpan(1),
+                    "api/dummy/path",
+                    "GET",
                     new DummyWebContent.DummyRequestContent
                     {
                         Id = 123,
@@ -37,6 +39,8 @@ namespace PythagoraSwitch.Recorder.Test
                 PsRecordContent.Create(
                     new TimeSpan(2),
                     new TimeSpan(3),
+                    "api/dummy/path",
+                    "GET",
                     new DummyWebContent.DummyRequestContent(),
                     new DummyWebContent.DummyResponseContent()
                 )
