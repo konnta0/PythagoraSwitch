@@ -19,10 +19,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="konnta0.Errors" Version="0.2.0" />
-    <PackageReference Include="PythagoraSwitch.WebRequest" Version="0.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="YamlDotNet" Version="11.2.0" />
   </ItemGroup>
   <ItemGroup>
-        <None Include="../../LICENSE" Pack="true" PackagePath=""/>
+        <None Include="../../LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
