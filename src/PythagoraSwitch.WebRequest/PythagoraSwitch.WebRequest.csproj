@@ -29,6 +29,7 @@
     </PackageReference>
     <PackageReference Include="System.Text.Json" Version="5.0.2">
     </PackageReference>
+    <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
@@ -43,6 +44,6 @@
     <PackageReference Include="konnta0.Errors" Version="0.2.0" />
   </ItemGroup>
   <ItemGroup>
-        <None Include="../../LICENSE" Pack="true" PackagePath=""/>
+        <None Include="../../LICENSE" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

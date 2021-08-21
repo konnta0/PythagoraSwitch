@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using PythagoraSwitch.Recorder.Interfaces;
+using PythagoraSwitch.WebRequest.Recorder;
+using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 using Xunit;
 
 namespace PythagoraSwitch.Recorder.Test

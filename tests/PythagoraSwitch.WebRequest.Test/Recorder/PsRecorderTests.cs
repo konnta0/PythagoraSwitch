@@ -1,4 +1,5 @@
 ﻿using konnta0.Exceptions;
+using PythagoraSwitch.WebRequest.Recorder;
 using Xunit;
 
 namespace PythagoraSwitch.Recorder.Test

@@ -9,10 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.WebRequest"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.WebRequest.Test", "tests\PythagoraSwitch.WebRequest.Test\PythagoraSwitch.WebRequest.Test.csproj", "{F1439366-3800-4FEF-B83F-A17C3E0743DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.Recorder.Test", "tests\PythagoraSwitch.Recorder.Test\PythagoraSwitch.Recorder.Test.csproj", "{E61779DA-EE5C-48F6-AD35-88051C5A488F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.Recorder", "src\PythagoraSwitch.Recorder\PythagoraSwitch.Recorder.csproj", "{684AB97F-79AC-4CC2-BF74-C64D54613179}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,14 +27,6 @@ Global
 		{F1439366-3800-4FEF-B83F-A17C3E0743DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1439366-3800-4FEF-B83F-A17C3E0743DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1439366-3800-4FEF-B83F-A17C3E0743DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E61779DA-EE5C-48F6-AD35-88051C5A488F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E61779DA-EE5C-48F6-AD35-88051C5A488F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E61779DA-EE5C-48F6-AD35-88051C5A488F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E61779DA-EE5C-48F6-AD35-88051C5A488F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{684AB97F-79AC-4CC2-BF74-C64D54613179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{684AB97F-79AC-4CC2-BF74-C64D54613179}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{684AB97F-79AC-4CC2-BF74-C64D54613179}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{684AB97F-79AC-4CC2-BF74-C64D54613179}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

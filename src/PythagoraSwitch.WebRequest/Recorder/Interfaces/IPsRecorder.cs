@@ -1,7 +1,6 @@
-using System.Threading.Tasks;
 using konnta0.Exceptions;
 
-namespace PythagoraSwitch.Recorder.Interfaces
+namespace PythagoraSwitch.WebRequest.Recorder.Interfaces
 {
     public interface IPsRecorder
     {

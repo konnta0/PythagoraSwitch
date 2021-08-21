@@ -1,4 +1,4 @@
-namespace PythagoraSwitch.Recorder.Interfaces
+namespace PythagoraSwitch.WebRequest.Recorder.Interfaces
 {
     public interface IPsExporterConfig
     {

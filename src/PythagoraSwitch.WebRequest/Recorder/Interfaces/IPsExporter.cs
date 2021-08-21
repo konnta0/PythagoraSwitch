@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using konnta0.Exceptions;
 
-namespace PythagoraSwitch.Recorder.Interfaces
+namespace PythagoraSwitch.WebRequest.Recorder.Interfaces
 {
     public interface IPsExporter
     {

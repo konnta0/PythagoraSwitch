@@ -22,7 +22,4 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="YamlDotNet" Version="11.2.0" />
   </ItemGroup>
-  <ItemGroup>
-        <None Include="../../LICENSE" Pack="true" PackagePath="" />
-  </ItemGroup>
 </Project>

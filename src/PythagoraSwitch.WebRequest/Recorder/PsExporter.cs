@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
-using PythagoraSwitch.Recorder.Interfaces;
+using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 using YamlDotNet.Serialization;
 
-namespace PythagoraSwitch.Recorder
+namespace PythagoraSwitch.WebRequest.Recorder
 {
     public class PsExporter : IPsExporter
     {

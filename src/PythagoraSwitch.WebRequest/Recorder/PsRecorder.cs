@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using konnta0.Exceptions;
-using PythagoraSwitch.Recorder.Interfaces;
+using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 
-namespace PythagoraSwitch.Recorder
+namespace PythagoraSwitch.WebRequest.Recorder
 {
     public class PsRecorder : IPsRecorder
     {
-        private readonly List<IPsRecordContent> _recordContents = new();
+        private readonly List<IPsRecordContent> _recordContents = new List<IPsRecordContent>();
         private bool _recording;
         private readonly IPsExporter _exporter;
 

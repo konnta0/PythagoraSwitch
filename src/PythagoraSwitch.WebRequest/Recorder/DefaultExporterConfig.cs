@@ -1,6 +1,6 @@
-using PythagoraSwitch.Recorder.Interfaces;
+using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 
-namespace PythagoraSwitch.Recorder
+namespace PythagoraSwitch.WebRequest.Recorder
 {
     public class DefaultExporterConfig : IPsExporterConfig
     {
