@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.809.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.Doder", "src\PythagoraSwitch.Doder\PythagoraSwitch.Doder.csproj", "{070F55B7-92D6-48D8-B1FF-C968B1B2B38D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.WebRequest", "src\PythagoraSwitch.WebRequest\PythagoraSwitch.WebRequest.csproj", "{4E15C86D-8AEC-4535-8AF1-829BD63B7728}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch", "src\PythagoraSwitch\PythagoraSwitch.csproj", "{4E15C86D-8AEC-4535-8AF1-829BD63B7728}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.WebRequest.Test", "tests\PythagoraSwitch.WebRequest.Test\PythagoraSwitch.WebRequest.Test.csproj", "{F1439366-3800-4FEF-B83F-A17C3E0743DA}"
 EndProject

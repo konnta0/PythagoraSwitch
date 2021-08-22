@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\PythagoraSwitch.WebRequest\PythagoraSwitch.WebRequest.csproj" />
+      <ProjectReference Include="..\..\src\PythagoraSwitch\PythagoraSwitch.csproj" />
     </ItemGroup>
 
 </Project>
