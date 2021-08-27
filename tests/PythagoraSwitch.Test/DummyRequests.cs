@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using konnta0.Exceptions;
 using PythagoraSwitch.WebRequest.Interfaces;
 
-namespace PythagoraSwitch.WebRequest.Test
+namespace PythagoraSwitch.Test
 {
     public class DummyGetRequestContent : IPsWebGetRequestContent
     {

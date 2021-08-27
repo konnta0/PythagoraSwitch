@@ -2,7 +2,7 @@
 using PythagoraSwitch.WebRequest.Recorder;
 using Xunit;
 
-namespace PythagoraSwitch.Recorder.Test
+namespace PythagoraSwitch.Test.Recorder
 {
     public class PsRecorderTests
     {

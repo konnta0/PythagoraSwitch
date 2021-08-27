@@ -8,9 +8,10 @@ using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.Protected;
+using PythagoraSwitch.WebRequest;
 using PythagoraSwitch.WebRequest.Interfaces;
 
-namespace PythagoraSwitch.WebRequest.Test
+namespace PythagoraSwitch.Test
 {
     public class TestHelper
     {
@@ -35,7 +36,7 @@ namespace PythagoraSwitch.WebRequest.Test
             config.Setup(x => x.RetrySleepDurationProvider)
                 .Returns(retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
             config.Setup(x => x.Headers).Returns(new List<KeyValuePair<string, IEnumerable<string>>>(
-                new KeyValuePair<string, IEnumerable<string>>[]
+                new[]
                 {
                     new KeyValuePair<string, IEnumerable<string>>("Authorization", new string[] {"Bearer Test"}),
                 }));

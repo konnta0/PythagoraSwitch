@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.Doder", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch", "src\PythagoraSwitch\PythagoraSwitch.csproj", "{4E15C86D-8AEC-4535-8AF1-829BD63B7728}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.WebRequest.Test", "tests\PythagoraSwitch.WebRequest.Test\PythagoraSwitch.WebRequest.Test.csproj", "{F1439366-3800-4FEF-B83F-A17C3E0743DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.Test", "tests\PythagoraSwitch.Test\PythagoraSwitch.Test.csproj", "{F1439366-3800-4FEF-B83F-A17C3E0743DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

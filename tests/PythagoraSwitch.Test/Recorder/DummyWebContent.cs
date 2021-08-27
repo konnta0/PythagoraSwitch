@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using PythagoraSwitch.WebRequest.Interfaces;
 
-namespace PythagoraSwitch.Recorder.Test
+namespace PythagoraSwitch.Test.Recorder
 {
     internal class DummyWebContent
     {

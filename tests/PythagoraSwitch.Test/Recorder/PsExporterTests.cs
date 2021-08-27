@@ -4,7 +4,7 @@ using PythagoraSwitch.WebRequest.Recorder;
 using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 using Xunit;
 
-namespace PythagoraSwitch.Recorder.Test
+namespace PythagoraSwitch.Test.Recorder
 {
     public class PsExporterTests
     {

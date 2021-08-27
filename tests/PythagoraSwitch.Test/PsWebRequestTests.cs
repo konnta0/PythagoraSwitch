@@ -1,9 +1,10 @@
 using System.Net.Http;
 using System.Threading;
 using konnta0.Exceptions;
+using PythagoraSwitch.WebRequest;
 using Xunit;
 
-namespace PythagoraSwitch.WebRequest.Test
+namespace PythagoraSwitch.Test
 {
     public class PsWebRequestTests
     {
