@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.809.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.Doder", "src\PythagoraSwitch.Doder\PythagoraSwitch.Doder.csproj", "{070F55B7-92D6-48D8-B1FF-C968B1B2B38D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch", "src\PythagoraSwitch\PythagoraSwitch.csproj", "{4E15C86D-8AEC-4535-8AF1-829BD63B7728}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PythagoraSwitch.Test", "tests\PythagoraSwitch.Test\PythagoraSwitch.Test.csproj", "{F1439366-3800-4FEF-B83F-A17C3E0743DA}"
@@ -15,10 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{070F55B7-92D6-48D8-B1FF-C968B1B2B38D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{070F55B7-92D6-48D8-B1FF-C968B1B2B38D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{070F55B7-92D6-48D8-B1FF-C968B1B2B38D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{070F55B7-92D6-48D8-B1FF-C968B1B2B38D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E15C86D-8AEC-4535-8AF1-829BD63B7728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E15C86D-8AEC-4535-8AF1-829BD63B7728}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E15C86D-8AEC-4535-8AF1-829BD63B7728}.Release|Any CPU.ActiveCfg = Release|Any CPU
