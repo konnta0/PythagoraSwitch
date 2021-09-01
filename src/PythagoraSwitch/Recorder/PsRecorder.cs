@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using konnta0.Exceptions;
+using PythagoraSwitch.Recorder.Interfaces;
 using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 
-namespace PythagoraSwitch.WebRequest.Recorder
+namespace PythagoraSwitch.Recorder
 {
     public class PsRecorder : IPsRecorder
     {
@@ -42,7 +43,7 @@ namespace PythagoraSwitch.WebRequest.Recorder
             return Errors.Nothing();
         }
 
-        public IErrors Export()
+        public (string, IErrors) Export()
         {
             return _exporter.Handle(_recordContents);
         }

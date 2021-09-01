@@ -1,12 +1,12 @@
 using konnta0.Exceptions;
 
-namespace PythagoraSwitch.WebRequest.Recorder.Interfaces
+namespace PythagoraSwitch.Recorder.Interfaces
 {
     public interface IPsRecorder
     {
         IErrors Start();
         IErrors Stop();
-        IErrors Export();
+        (string, IErrors) Export();
         IErrors Clear();
     }
 }
