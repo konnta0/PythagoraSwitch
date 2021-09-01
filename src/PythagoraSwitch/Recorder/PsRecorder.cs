@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using konnta0.Exceptions;
 using PythagoraSwitch.Recorder.Interfaces;
+using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 
 namespace PythagoraSwitch.Recorder
 {
-    public sealed class PsRecorder : IPsRecorder
+    public class PsRecorder : IPsRecorder
     {
-        private readonly List<IPsRequestRecordContent> _recordContents = new List<IPsRequestRecordContent>();
+        private readonly List<IPsRecordContent> _recordContents = new List<IPsRecordContent>();
         private bool _recording;
         private readonly IPsExporter _exporter;
-        private DateTime _startAt;
 
         public PsRecorder(IPsExporter exporter)
         {
             _exporter = exporter;
         }
-
         public IErrors Start()
         {
             if (_recording)
@@ -25,17 +23,7 @@ namespace PythagoraSwitch.Recorder
             }
 
             _recording = true;
-            _startAt = DateTime.Now;
             return Errors.Nothing();
-        }
-
-        public void Add(IPsRequestRecordContent content)
-        {
-            if (!_recording)
-            {
-                return;
-            }
-            _recordContents.Add(content);
         }
 
         public IErrors Stop()

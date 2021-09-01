@@ -1,28 +1,23 @@
 using System;
 using System.Collections.Generic;
 using PythagoraSwitch.Recorder;
-using PythagoraSwitch.Recorder.Interfaces;
 using PythagoraSwitch.Test.Recorder;
+using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 
 namespace PythagoraSwitch.Test
 {
     internal static class DummyRecordFactory
     {
-        public static List<IPsRequestRecordContent> CreateByInterface()
+        public static List<IPsRecordContent> Create()
         {
-            return new List<IPsRequestRecordContent>(Create());;
-        }
-        
-        public static List<PsRequestRecordContent> Create()
-        {
-            return new List<PsRequestRecordContent>
+            return new List<IPsRecordContent>
             {
-                new()
-                {
-                    Interval = new TimeSpan(0),
-                    EndPoint = "api/dummy/path",
-                    Method = "GET",
-                    RequestContent = new DummyWebContent.DummyRequestContent
+                PsRecordContent.Create(
+                    new TimeSpan(0),
+                    new TimeSpan(1),
+                    "api/dummy/path",
+                    "GET",
+                    new DummyWebContent.DummyRequestContent
                     {
                         Id = 123,
                         innner = new DummyWebContent.InnerObject
@@ -30,17 +25,23 @@ namespace PythagoraSwitch.Test
                             InnerMessage = "inner_message"
                         }
                     },
-                    RequestContentType = typeof(DummyWebContent.DummyRequestContent)
-                }
-                ,
-                new()
-                {
-                    Interval = new TimeSpan(20),
-                    EndPoint = "api/dummy/path",
-                    Method = "GET",
-                    RequestContent = new DummyWebContent.DummyRequestContent(),
-                    RequestContentType = typeof(DummyWebContent.DummyRequestContent)
-                }
+                    new DummyWebContent.DummyResponseContent
+                    {
+                        InnerObjects = new List<DummyWebContent.InnerObject>
+                        {
+                            new (){InnerMessage = "list_item1"},
+                            new (){InnerMessage = "list_item2"}
+                        }
+                    }
+                ),
+                PsRecordContent.Create(
+                    new TimeSpan(2),
+                    new TimeSpan(3),
+                    "api/dummy/path",
+                    "GET",
+                    new DummyWebContent.DummyRequestContent(),
+                    new DummyWebContent.DummyResponseContent()
+                )
             };
         }
     }

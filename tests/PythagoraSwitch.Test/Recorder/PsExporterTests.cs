@@ -11,7 +11,7 @@ namespace PythagoraSwitch.Test.Recorder
         internal void HandleTest()
         {
             var exporter = new PsExporter(new DefaultExporterConfig(), LoggerFactory.Create<PsExporter>());
-            var recordContents = DummyRecordFactory.CreateByInterface();
+            var recordContents = DummyRecordFactory.Create();
             var (path, errors) = exporter.Handle(recordContents);
             Assert.False(Errors.IsOccurred(errors));
         }
