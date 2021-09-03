@@ -1,10 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
 using PythagoraSwitch.Player.Interfaces;
-using PythagoraSwitch.WebRequest.Recorder.Interfaces;
+using PythagoraSwitch.Recorder.Interfaces;
+using YamlDotNet.Core;
+using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+using YamlDotNet.Serialization.Utilities;
 
 namespace PythagoraSwitch.Player
 {
@@ -30,7 +35,8 @@ namespace PythagoraSwitch.Player
             var error = Errors.Try(delegate
             {
                 var deserializer = new Deserializer();
-                records = deserializer.Deserialize<IList<IPsRecordContent>>(path);
+                var yml = File.ReadAllText(path);
+                records = deserializer.Deserialize<List<IPsRecordContent>>(yml);
             });
             return (records, error);
         }
