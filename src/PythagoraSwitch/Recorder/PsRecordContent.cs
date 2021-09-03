@@ -1,4 +1,5 @@
 ﻿using System;
+using PythagoraSwitch.Recorder.Interfaces;
 using PythagoraSwitch.WebRequest.Interfaces;
 using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 
