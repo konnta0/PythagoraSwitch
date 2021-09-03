@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using konnta0.Exceptions;
-using PythagoraSwitch.WebRequest.Recorder.Interfaces;
+using PythagoraSwitch.Recorder.Interfaces;
 
 namespace PythagoraSwitch.Player.Interfaces
 {
