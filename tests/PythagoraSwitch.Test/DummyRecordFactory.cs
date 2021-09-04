@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using PythagoraSwitch.Recorder;
+using PythagoraSwitch.Recorder.Interfaces;
 using PythagoraSwitch.Test.Recorder;
-using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 
 namespace PythagoraSwitch.Test
 {
