@@ -24,19 +24,19 @@ namespace PythagoraSwitch.Player
             _logger = logger;
         }
         
-        public (IList<IPsRecordContent>, IErrors) Handle(string path)
+        public (IList<IPsRequestRecordContent>, IErrors) Handle(string path)
         {
             if (!File.Exists(path))
             {
                 return (default, Errors.New<FileNotFoundException>());
             }
 
-            IList<IPsRecordContent> records = default;
+            IList<IPsRequestRecordContent> records = default;
             var error = Errors.Try(delegate
             {
                 var deserializer = new Deserializer();
                 var yml = File.ReadAllText(path);
-                records = deserializer.Deserialize<List<IPsRecordContent>>(yml);
+                records = deserializer.Deserialize<List<IPsRequestRecordContent>>(yml);
             });
             return (records, error);
         }

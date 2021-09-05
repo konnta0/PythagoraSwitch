@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
@@ -15,7 +14,7 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public sealed class PsWebRequester : IPsWebRequester, IPsWebRequesting
+    public class PsWebRequester : IPsWebRequester, IPsWebRequesting
     {
         private readonly ILogger<PsWebRequester> _logger;
         private readonly IPsNetworkAccess _networkAccess;
@@ -47,9 +46,7 @@ namespace PythagoraSwitch.WebRequest
             {
                 _ = _recorder?.Start();
             }
-
-            var tokenSource = new CancellationTokenSource();
-            _requestQueue.WatchRequestQueue(_config.QueueWatchDelayMilliseconds, HandleRequest, tokenSource.Token);
+            _requestQueue.WatchRequestQueue(_config.QueueWatchDelayMilliseconds, HandleRequest);
         }
 
         private async void HandleRequest(IPsRequest request)
@@ -72,10 +69,29 @@ namespace PythagoraSwitch.WebRequest
             var isDone = false;
             TRes httpResponse = default;
             IErrors error = null;
+
+            PsRequestRecordContent requestRecordContent = default;
             
+            Task<(string, IErrors)> func()
+            {
+                if (_config.RequestRecording)
+                {
+                    var urlBuilder = new UriBuilder(uri);
+                    requestRecordContent = new PsRequestRecordContent
+                    {
+                        Method = HttpMethod.Post.ToString(),
+                        EndPoint = urlBuilder.Path,
+                        RequestContent = body
+                    };
+                    requestRecordContent.RequestStart();
+                    _recorder.Add(requestRecordContent);
+                }
+                return RequestPostTask(uri, body, overwriteConfig);
+            };
+
             var request = new Request
             {
-                HandleTask = RequestPostTask(uri, body, overwriteConfig),
+                HandleTask = func(),
                 OnResponse = tuple =>
                 {
                     var (responseMessage, requestError) = tuple;
@@ -108,23 +124,7 @@ namespace PythagoraSwitch.WebRequest
             {
                 return (default, validNetworkAccess);
             }
-
             var requestConfig = overwriteConfig ?? _config; 
-
-            if (_config.RequestRecording)
-            {
-                var urlBuilder = new UriBuilder(uri);
-                var requestRecordContent = new PsRequestRecordContent
-                {
-                    Method = HttpMethod.Post.ToString(),
-                    EndPoint = urlBuilder.Path,
-                    RequestContent = body,
-                    RequestContentType = typeof(TReq),
-                    Headers = requestConfig.Headers
-                };
-                requestRecordContent.RequestStart();
-                _recorder.Add(requestRecordContent);
-            }
 
             var message = string.Empty;
             async Task<IErrors> RequestTask()
@@ -160,53 +160,13 @@ namespace PythagoraSwitch.WebRequest
             }
             
             var error = await Errors.TryTask(RequestTask());
-
+            
             if (Errors.IsOccurred(error))
             {
                 return (string.Empty, error);
             }
 
             return (message, Errors.Nothing());
-        }
-
-        public async Task<(TRes, IErrors)> GetAsync<TGetReq, TRes>(Uri uri, TGetReq queryObject, IPsWebRequestConfig overwriteConfig = null)
-            where TGetReq : IPsWebGetRequestContent where TRes : IPsWebResponseContent
-        {
-            var validNetworkAccessError = ValidNetworkAccess();
-            if (validNetworkAccessError != null)
-            {
-                return (default, validNetworkAccessError);
-            }
-            
-            var isDone = false;
-            TRes httpResponse = default;
-            IErrors error = null;
-            
-            var request = new Request
-            {
-                HandleTask = RequestGetTask(uri, queryObject, overwriteConfig),
-                OnResponse = tuple =>
-                {
-                    var (responseMessage, requestError) = tuple;
-                    if (Errors.IsOccurred(requestError))
-                    {
-                        error = requestError;
-                    }
-                    else
-                    {
-                        (httpResponse, error) = _serializer.Deserialize<TRes>(responseMessage);
-                    }
-                    isDone = true;  
-                }
-            };
-
-            _requestQueue.Enqueue(request);
-            while (!isDone)
-            {
-                await Task.Delay(50);
-            }
-
-            return (httpResponse, error);
         }
 
         private async Task<(string, IErrors)> RequestGetTask<TGetReq>(Uri uri, TGetReq queryObject, IPsWebRequestConfig overwriteConfig = null)
@@ -219,22 +179,6 @@ namespace PythagoraSwitch.WebRequest
             }
 
             var requestConfig = overwriteConfig ?? _config; 
-
-            if (_config.RequestRecording)
-            {
-                var urlBuilder = new UriBuilder(uri);
-                var requestRecordContent = new PsRequestRecordContent
-                {
-                    Method = HttpMethod.Get.ToString(),
-                    EndPoint = urlBuilder.Path,
-                    RequestContent = queryObject,
-                    RequestContentType = typeof(TGetReq),
-                    Headers = requestConfig.Headers
-                };
-                requestRecordContent.RequestStart();
-                _recorder.Add(requestRecordContent);
-            }
-
             var requestUrl = $"{uri}&{queryObject.ToQueryString()}";
 
             var message = string.Empty;
@@ -242,9 +186,9 @@ namespace PythagoraSwitch.WebRequest
             {
                 var client = CreateClient(requestConfig);
                 var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-                foreach (var (key, value) in requestConfig.Headers)
+                foreach (var requestConfigHeader in requestConfig.Headers)
                 {
-                    requestMessage.Headers.Add(key, value);
+                    requestMessage.Headers.Add(requestConfigHeader.Key, requestConfigHeader.Value);
                 }
 
                 _logger.LogInformation("[Http] REQUEST method:GET url:{Url}", requestUrl);
@@ -273,6 +217,56 @@ namespace PythagoraSwitch.WebRequest
             return (message, Errors.Nothing());
         }
 
+        public async Task<(TRes, IErrors)> GetAsync<TGetReq, TRes>(Uri uri, TGetReq queryObject, IPsWebRequestConfig overwriteConfig = null)
+            where TGetReq : IPsWebGetRequestContent where TRes : IPsWebResponseContent
+        {
+            var validNetworkAccessError = ValidNetworkAccess();
+            if (validNetworkAccessError != null)
+            {
+                return (default, validNetworkAccessError);
+            }
+            
+            var isDone = false;
+            TRes httpResponse = default;
+            IErrors error = null;
+            
+            PsRequestRecordContent requestRecordContent = default;
+            if (_config.RequestRecording)
+            {
+                var urlBuilder = new UriBuilder(uri);
+                requestRecordContent = new PsRequestRecordContent
+                {
+                    Method = HttpMethod.Get.ToString(),
+                    EndPoint = urlBuilder.Path,
+                };
+            }
+            
+            var request = new Request
+            {
+                HandleTask = RequestGetTask(uri, queryObject, overwriteConfig),
+                OnResponse = tuple =>
+                {
+                    var (responseMessage, requestError) = tuple;
+                    if (Errors.IsOccurred(requestError))
+                    {
+                        error = requestError;
+                    }
+                    else
+                    {
+                        (httpResponse, error) = _serializer.Deserialize<TRes>(responseMessage);
+                    }
+                    isDone = true;  
+                }
+            };
+
+            _requestQueue.Enqueue(request);
+            while (!isDone)
+            {
+                await Task.Delay(50);
+            }
+
+            return (httpResponse, error);
+        }
 
         public Action<IPsRequest> OnStartRequest { get; set; }
 
@@ -291,9 +285,9 @@ namespace PythagoraSwitch.WebRequest
         public Action<bool> OnChangeRequesting { get; set; }
     }
     
-    internal static class UrlHelpers
+    public static class UrlHelpers
     {
-        internal static string ToQueryString(this IPsWebGetRequestContent request, string separator = ",")
+        public static string ToQueryString(this IPsWebGetRequestContent request, string separator = ",")
         {
             if (request == null)
                 throw new ArgumentNullException("request");

@@ -20,7 +20,7 @@ namespace PythagoraSwitch.Recorder
             _logger = logger;
         }
 
-        public (string, IErrors) Handle(IList<IPsRecordContent> contents)
+        public (string, IErrors) Handle(IList<IPsRequestRecordContent> contents)
         {
             var (path, error) = Errors.Try<string>(delegate
             {
@@ -44,7 +44,7 @@ namespace PythagoraSwitch.Recorder
             return (path, error);
         }
 
-        private static (string, IErrors) Serialize(IList<IPsRecordContent> contents)
+        private static (string, IErrors) Serialize(IList<IPsRequestRecordContent> contents)
         {
             var serializedString = string.Empty;
             var errors = Errors.Try(delegate

@@ -6,6 +6,6 @@ namespace PythagoraSwitch.Player.Interfaces
 {
     public interface IPsImporter
     {
-        (IList<IPsRecordContent>, IErrors) Handle(string path);
+        (IList<IPsRequestRecordContent>, IErrors) Handle(string path);
     }
 }
