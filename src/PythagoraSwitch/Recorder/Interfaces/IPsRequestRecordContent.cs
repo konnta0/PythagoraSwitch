@@ -2,14 +2,12 @@
 
 namespace PythagoraSwitch.Recorder.Interfaces
 {
-    public interface IPsRecordContent
+    public interface IPsRequestRecordContent
     {
-        TimeSpan Start { get; set; }
-        TimeSpan End { get; set; }
+        TimeSpan Interval { get; set; }
         string EndPoint { get; set; }
         string Method { get; set; }
         
         PythagoraSwitch.WebRequest.Interfaces.IPsWebRequestContent RequestContent { get; set; }
-        PythagoraSwitch.WebRequest.Interfaces.IPsWebResponseContent ResponseContent { get; set; }
     }
 }

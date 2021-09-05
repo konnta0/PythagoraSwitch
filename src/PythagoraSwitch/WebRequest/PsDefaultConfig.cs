@@ -21,5 +21,6 @@ namespace PythagoraSwitch.WebRequest
         public IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers =>
             new List<KeyValuePair<string, IEnumerable<string>>>();
         public int QueueWatchDelayMilliseconds => 20;
+        public bool RequestRecording => true;
     }
 }
