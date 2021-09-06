@@ -69,15 +69,13 @@ namespace PythagoraSwitch.WebRequest
             var isDone = false;
             TRes httpResponse = default;
             IErrors error = null;
-
-            PsRequestRecordContent requestRecordContent = default;
             
             Task<(string, IErrors)> HandleRequestTask()
             {
                 if (_config.RequestRecording)
                 {
                     var urlBuilder = new UriBuilder(uri);
-                    requestRecordContent = new PsRequestRecordContent
+                    var requestRecordContent = new PsRequestRecordContent
                     {
                         Method = HttpMethod.Post.ToString(),
                         EndPoint = urlBuilder.Path,
@@ -182,20 +180,26 @@ namespace PythagoraSwitch.WebRequest
             TRes httpResponse = default;
             IErrors error = null;
             
-            PsRequestRecordContent requestRecordContent = default;
-            if (_config.RequestRecording)
+            Task<(string, IErrors)> HandleRequestTask()
             {
-                var urlBuilder = new UriBuilder(uri);
-                requestRecordContent = new PsRequestRecordContent
+                if (_config.RequestRecording)
                 {
-                    Method = HttpMethod.Get.ToString(),
-                    EndPoint = urlBuilder.Path,
-                };
-            }
+                    var urlBuilder = new UriBuilder(uri);
+                    var requestRecordContent = new PsRequestRecordContent
+                    {
+                        Method = HttpMethod.Get.ToString(),
+                        EndPoint = urlBuilder.Path,
+                        RequestContent = queryObject,
+                    };
+                    requestRecordContent.RequestStart();
+                    _recorder.Add(requestRecordContent);
+                }
+                return RequestGetTask(uri, queryObject, overwriteConfig);
+            };
             
             var request = new Request
             {
-                HandleTask = RequestGetTask(uri, queryObject, overwriteConfig),
+                HandleTask = HandleRequestTask(),
                 OnResponse = tuple =>
                 {
                     var (responseMessage, requestError) = tuple;
