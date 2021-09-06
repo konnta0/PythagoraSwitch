@@ -72,7 +72,7 @@ namespace PythagoraSwitch.WebRequest
 
             PsRequestRecordContent requestRecordContent = default;
             
-            Task<(string, IErrors)> func()
+            Task<(string, IErrors)> HandleRequestTask()
             {
                 if (_config.RequestRecording)
                 {
@@ -91,7 +91,7 @@ namespace PythagoraSwitch.WebRequest
 
             var request = new Request
             {
-                HandleTask = func(),
+                HandleTask = HandleRequestTask(),
                 OnResponse = tuple =>
                 {
                     var (responseMessage, requestError) = tuple;
@@ -169,54 +169,6 @@ namespace PythagoraSwitch.WebRequest
             return (message, Errors.Nothing());
         }
 
-        private async Task<(string, IErrors)> RequestGetTask<TGetReq>(Uri uri, TGetReq queryObject, IPsWebRequestConfig overwriteConfig = null)
-            where TGetReq : IPsWebGetRequestContent
-        {
-            var validNetworkAccess = ValidNetworkAccess();
-            if (validNetworkAccess != null)
-            {
-                return (default, validNetworkAccess);
-            }
-
-            var requestConfig = overwriteConfig ?? _config; 
-            var requestUrl = $"{uri}&{queryObject.ToQueryString()}";
-
-            var message = string.Empty;
-            async Task<IErrors> RequestTask()
-            {
-                var client = CreateClient(requestConfig);
-                var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-                foreach (var requestConfigHeader in requestConfig.Headers)
-                {
-                    requestMessage.Headers.Add(requestConfigHeader.Key, requestConfigHeader.Value);
-                }
-
-                _logger.LogInformation("[Http] REQUEST method:GET url:{Url}", requestUrl);
-
-                using var responseMessage = await Policy
-                    .HandleResult<HttpResponseMessage>(x => requestConfig.RetryHttpStatusCodes.Contains(x.StatusCode))
-                    .WaitAndRetryAsync(requestConfig.RetryCount, requestConfig.RetrySleepDurationProvider)
-                    .ExecuteAsync(() => client.SendAsync(requestMessage));
-                _logger.LogInformation(
-                    "[Http] RESPONSE method:GET url:{Url} statusCode:{Status}", requestUrl, responseMessage.StatusCode);
-                if (!responseMessage.IsSuccessStatusCode)
-                {
-                    return Errors.New(new Exception($"request failed status code {responseMessage.StatusCode}"));
-                }
-
-                message = await responseMessage.Content.ReadAsStringAsync();
-                return Errors.Nothing();
-            }
-
-            var error = await Errors.TryTask(RequestTask());
-            if (Errors.IsOccurred(error))
-            {
-                return (string.Empty, error);
-            }
-
-            return (message, Errors.Nothing());
-        }
-
         public async Task<(TRes, IErrors)> GetAsync<TGetReq, TRes>(Uri uri, TGetReq queryObject, IPsWebRequestConfig overwriteConfig = null)
             where TGetReq : IPsWebGetRequestContent where TRes : IPsWebResponseContent
         {
@@ -267,6 +219,54 @@ namespace PythagoraSwitch.WebRequest
 
             return (httpResponse, error);
         }
+        private async Task<(string, IErrors)> RequestGetTask<TGetReq>(Uri uri, TGetReq queryObject, IPsWebRequestConfig overwriteConfig = null)
+            where TGetReq : IPsWebGetRequestContent
+        {
+            var validNetworkAccess = ValidNetworkAccess();
+            if (validNetworkAccess != null)
+            {
+                return (default, validNetworkAccess);
+            }
+
+            var requestConfig = overwriteConfig ?? _config; 
+            var requestUrl = $"{uri}&{queryObject.ToQueryString()}";
+
+            var message = string.Empty;
+            async Task<IErrors> RequestTask()
+            {
+                var client = CreateClient(requestConfig);
+                var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+                foreach (var requestConfigHeader in requestConfig.Headers)
+                {
+                    requestMessage.Headers.Add(requestConfigHeader.Key, requestConfigHeader.Value);
+                }
+
+                _logger.LogInformation("[Http] REQUEST method:GET url:{Url}", requestUrl);
+
+                using var responseMessage = await Policy
+                    .HandleResult<HttpResponseMessage>(x => requestConfig.RetryHttpStatusCodes.Contains(x.StatusCode))
+                    .WaitAndRetryAsync(requestConfig.RetryCount, requestConfig.RetrySleepDurationProvider)
+                    .ExecuteAsync(() => client.SendAsync(requestMessage));
+                _logger.LogInformation(
+                    "[Http] RESPONSE method:GET url:{Url} statusCode:{Status}", requestUrl, responseMessage.StatusCode);
+                if (!responseMessage.IsSuccessStatusCode)
+                {
+                    return Errors.New(new Exception($"request failed status code {responseMessage.StatusCode}"));
+                }
+
+                message = await responseMessage.Content.ReadAsStringAsync();
+                return Errors.Nothing();
+            }
+
+            var error = await Errors.TryTask(RequestTask());
+            if (Errors.IsOccurred(error))
+            {
+                return (string.Empty, error);
+            }
+
+            return (message, Errors.Nothing());
+        }
+
 
         public Action<IPsRequest> OnStartRequest { get; set; }
 
