@@ -10,17 +10,17 @@ namespace PythagoraSwitch.Test.Importer
 {
     public class PsImporterTests : IDisposable
     {
-        
+        private string _outhPah;
         [Fact]
         private void Handle()
         {
             var exporterConfig = new DefaultExporterConfig();
             var exporter = new PsExporter(exporterConfig, LoggerFactory.Create<PsExporter>());
             var (outPath, _) = exporter.Handle(DummyRecordFactory.Create());
+            _outhPah = outPath;
             var importer = PsImporterFactory.Create();
-            var (contents, error) = importer.Handle(outPath);
+            var (contents, error) = importer.Handle(_outhPah);
             Assert.False(Errors.IsOccurred(error));
-            
         }
 
         [Fact]
@@ -32,18 +32,12 @@ namespace PythagoraSwitch.Test.Importer
             Assert.True(error.Is<FileNotFoundException>());
         }
 
-        [Fact]
-        private void HandleDeserializedError()
-        {
-            var importer = PsImporterFactory.Create();
-            var (contents, error) = importer.Handle("dummy");
-            Assert.True(Errors.IsOccurred(error));
-            Assert.True(error.Is<ArgumentNullException>());
-        }
-
         public void Dispose()
         {
-            // file delete
+            if (!string.IsNullOrEmpty(_outhPah) && File.Exists(_outhPah))
+            {
+                File.Delete(_outhPah);
+            }
         }
     }
 
