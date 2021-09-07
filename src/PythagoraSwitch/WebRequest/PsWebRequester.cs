@@ -14,7 +14,7 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public class PsWebRequester : IPsWebRequester, IPsWebRequesting
+    public sealed class PsWebRequester : IPsWebRequester, IPsWebRequesting
     {
         private readonly ILogger<PsWebRequester> _logger;
         private readonly IPsNetworkAccess _networkAccess;
@@ -283,9 +283,9 @@ namespace PythagoraSwitch.WebRequest
         public Action<bool> OnChangeRequesting { get; set; }
     }
     
-    public static class UrlHelpers
+    internal static class UrlHelpers
     {
-        public static string ToQueryString(this IPsWebGetRequestContent request, string separator = ",")
+        internal static string ToQueryString(this IPsWebGetRequestContent request, string separator = ",")
         {
             if (request == null)
                 throw new ArgumentNullException("request");
