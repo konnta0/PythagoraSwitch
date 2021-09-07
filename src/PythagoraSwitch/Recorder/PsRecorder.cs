@@ -5,7 +5,7 @@ using PythagoraSwitch.Recorder.Interfaces;
 
 namespace PythagoraSwitch.Recorder
 {
-    public class PsRecorder : IPsRecorder
+    public sealed class PsRecorder : IPsRecorder
     {
         private readonly List<IPsRequestRecordContent> _recordContents = new List<IPsRequestRecordContent>();
         private bool _recording;

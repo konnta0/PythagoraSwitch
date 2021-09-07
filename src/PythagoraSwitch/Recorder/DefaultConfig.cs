@@ -2,7 +2,7 @@ using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 
 namespace PythagoraSwitch.Recorder
 {
-    public class DefaultConfig : IPsRecorderConfig
+    public sealed class DefaultConfig : IPsRecorderConfig
     {
     }
 }
