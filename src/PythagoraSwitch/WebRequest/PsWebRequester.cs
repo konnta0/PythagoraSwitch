@@ -70,26 +70,9 @@ namespace PythagoraSwitch.WebRequest
             TRes httpResponse = default;
             IErrors error = null;
             
-            Task<(string, IErrors)> HandleRequestTask()
-            {
-                if (_config.RequestRecording)
-                {
-                    var urlBuilder = new UriBuilder(uri);
-                    var requestRecordContent = new PsRequestRecordContent
-                    {
-                        Method = HttpMethod.Post.ToString(),
-                        EndPoint = urlBuilder.Path,
-                        RequestContent = body
-                    };
-                    requestRecordContent.RequestStart();
-                    _recorder.Add(requestRecordContent);
-                }
-                return RequestPostTask(uri, body, overwriteConfig);
-            };
-
             var request = new Request
             {
-                HandleTask = HandleRequestTask(),
+                HandleTask = RequestPostTask(uri, body, overwriteConfig),
                 OnResponse = tuple =>
                 {
                     var (responseMessage, requestError) = tuple;
@@ -122,6 +105,20 @@ namespace PythagoraSwitch.WebRequest
             {
                 return (default, validNetworkAccess);
             }
+
+            if (_config.RequestRecording)
+            {
+                var urlBuilder = new UriBuilder(uri);
+                var requestRecordContent = new PsRequestRecordContent
+                {
+                    Method = HttpMethod.Post.ToString(),
+                    EndPoint = urlBuilder.Path,
+                    RequestContent = body
+                };
+                requestRecordContent.RequestStart();
+                _recorder.Add(requestRecordContent);
+            }
+            
             var requestConfig = overwriteConfig ?? _config; 
 
             var message = string.Empty;
@@ -180,26 +177,9 @@ namespace PythagoraSwitch.WebRequest
             TRes httpResponse = default;
             IErrors error = null;
             
-            Task<(string, IErrors)> HandleRequestTask()
-            {
-                if (_config.RequestRecording)
-                {
-                    var urlBuilder = new UriBuilder(uri);
-                    var requestRecordContent = new PsRequestRecordContent
-                    {
-                        Method = HttpMethod.Get.ToString(),
-                        EndPoint = urlBuilder.Path,
-                        RequestContent = queryObject,
-                    };
-                    requestRecordContent.RequestStart();
-                    _recorder.Add(requestRecordContent);
-                }
-                return RequestGetTask(uri, queryObject, overwriteConfig);
-            };
-            
             var request = new Request
             {
-                HandleTask = HandleRequestTask(),
+                HandleTask = RequestGetTask(uri, queryObject, overwriteConfig),
                 OnResponse = tuple =>
                 {
                     var (responseMessage, requestError) = tuple;
@@ -223,6 +203,7 @@ namespace PythagoraSwitch.WebRequest
 
             return (httpResponse, error);
         }
+
         private async Task<(string, IErrors)> RequestGetTask<TGetReq>(Uri uri, TGetReq queryObject, IPsWebRequestConfig overwriteConfig = null)
             where TGetReq : IPsWebGetRequestContent
         {
@@ -230,6 +211,19 @@ namespace PythagoraSwitch.WebRequest
             if (validNetworkAccess != null)
             {
                 return (default, validNetworkAccess);
+            }
+
+            if (_config.RequestRecording)
+            {
+                var urlBuilder = new UriBuilder(uri);
+                var requestRecordContent = new PsRequestRecordContent
+                {
+                    Method = HttpMethod.Get.ToString(),
+                    EndPoint = urlBuilder.Path,
+                    RequestContent = queryObject,
+                };
+                requestRecordContent.RequestStart();
+                _recorder.Add(requestRecordContent);
             }
 
             var requestConfig = overwriteConfig ?? _config; 
