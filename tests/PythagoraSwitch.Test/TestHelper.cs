@@ -35,10 +35,10 @@ namespace PythagoraSwitch.Test
             });
             config.Setup(x => x.RetrySleepDurationProvider)
                 .Returns(retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-            config.Setup(x => x.Headers).Returns(new List<KeyValuePair<string, List<string>>>(
+            config.Setup(x => x.Headers).Returns(new List<KeyValuePair<string, IEnumerable<string>>>(
                 new[]
                 {
-                    new KeyValuePair<string, List<string>>("Authorization", new List<string> {"Bearer Test"}),
+                    new KeyValuePair<string, IEnumerable<string>>("Authorization", new string[] {"Bearer Test"}),
                 }));
             return config;
         }
@@ -52,7 +52,7 @@ namespace PythagoraSwitch.Test
         {
             var requestQueue = new Mock<IPsRequestQueue>();
             var queue = new Queue<IPsRequest>();
-            async Task Action(int delay, Action<IPsRequest> callback, CancellationToken t)
+            async Task Action(int delay, Action<IPsRequest> callback)
             {
                 while (!token.IsCancellationRequested)
                 {
@@ -61,13 +61,10 @@ namespace PythagoraSwitch.Test
                     callback(requestQueue.Object.Dequeue());
                 }
             }
-            requestQueue.Setup(
-                    x => x.WatchRequestQueue(It.IsAny<int>(),
-                        It.IsAny<Action<IPsRequest>>(),
-                        It.IsAny<CancellationToken>()))
-                .Callback<int, Action<IPsRequest>, CancellationToken>(async (i, act, t) =>
+            requestQueue.Setup(x => x.WatchRequestQueue(It.IsAny<int>(), It.IsAny<Action<IPsRequest>>(), CancellationToken.None))
+                .Callback<int, Action<IPsRequest>>(async (i, act) =>
                 {
-                    _ = await Errors.TryTask(Action(i, act, t));
+                    _ = await Errors.TryTask(Action(i, act));
                 });
             requestQueue.Setup(x => x.Enqueue(It.IsAny<IPsRequest>())).Callback<IPsRequest>(request =>
             {

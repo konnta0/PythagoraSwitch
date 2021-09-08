@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
@@ -46,7 +47,9 @@ namespace PythagoraSwitch.WebRequest
             {
                 _ = _recorder?.Start();
             }
-            _requestQueue.WatchRequestQueue(_config.QueueWatchDelayMilliseconds, HandleRequest);
+
+            var tokenSource = new CancellationTokenSource();
+            _requestQueue.WatchRequestQueue(_config.QueueWatchDelayMilliseconds, HandleRequest, tokenSource.Token);
         }
 
         private async void HandleRequest(IPsRequest request)
