@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
@@ -6,6 +7,6 @@ namespace PythagoraSwitch.WebRequest.Interfaces
     {
         void Enqueue(IPsRequest request);
         IPsRequest Dequeue();
-        void WatchRequestQueue(int queueWatchDelayMilliseconds, Action<IPsRequest> requestCallback);
+        void WatchRequestQueue(int queueWatchDelayMilliseconds, Action<IPsRequest> requestCallback, CancellationToken token);
     }
 }

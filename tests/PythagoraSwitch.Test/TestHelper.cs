@@ -61,7 +61,7 @@ namespace PythagoraSwitch.Test
                     callback(requestQueue.Object.Dequeue());
                 }
             }
-            requestQueue.Setup(x => x.WatchRequestQueue(It.IsAny<int>(), It.IsAny<Action<IPsRequest>>()))
+            requestQueue.Setup(x => x.WatchRequestQueue(It.IsAny<int>(), It.IsAny<Action<IPsRequest>>(), CancellationToken.None))
                 .Callback<int, Action<IPsRequest>>(async (i, act) =>
                 {
                     _ = await Errors.TryTask(Action(i, act));

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
 using PythagoraSwitch.WebRequest.Interfaces;
@@ -31,10 +32,12 @@ namespace PythagoraSwitch.WebRequest
             return _requestQueue.Dequeue();
         }
 
-        public async void WatchRequestQueue(int queueWatchDelayMilliseconds, Action<IPsRequest> requestCallback)
+        public async void WatchRequestQueue(int queueWatchDelayMilliseconds, Action<IPsRequest> requestCallback, CancellationToken token)
         {
             while (true)
             {
+                if (token.IsCancellationRequested) break;
+
                 if (_requestQueue.Count == 0)
                 {
                     await Task.Delay(queueWatchDelayMilliseconds);
@@ -43,7 +46,6 @@ namespace PythagoraSwitch.WebRequest
 
                 requestCallback(_requestQueue.Dequeue());
             }
-            // ReSharper disable once FunctionNeverReturns
         }
     }
 }
