@@ -109,6 +109,8 @@ namespace PythagoraSwitch.WebRequest
                 return (default, validNetworkAccess);
             }
 
+            var requestConfig = overwriteConfig ?? _config; 
+
             if (_config.RequestRecording)
             {
                 var urlBuilder = new UriBuilder(uri);
@@ -116,13 +118,12 @@ namespace PythagoraSwitch.WebRequest
                 {
                     Method = HttpMethod.Post.ToString(),
                     EndPoint = urlBuilder.Path,
-                    RequestContent = body
+                    RequestContent = body,
+                    Headers = requestConfig.Headers
                 };
                 requestRecordContent.RequestStart();
                 _recorder.Add(requestRecordContent);
             }
-            
-            var requestConfig = overwriteConfig ?? _config; 
 
             var message = string.Empty;
             async Task<IErrors> RequestTask()
@@ -158,7 +159,7 @@ namespace PythagoraSwitch.WebRequest
             }
             
             var error = await Errors.TryTask(RequestTask());
-            
+
             if (Errors.IsOccurred(error))
             {
                 return (string.Empty, error);
@@ -216,6 +217,8 @@ namespace PythagoraSwitch.WebRequest
                 return (default, validNetworkAccess);
             }
 
+            var requestConfig = overwriteConfig ?? _config; 
+
             if (_config.RequestRecording)
             {
                 var urlBuilder = new UriBuilder(uri);
@@ -224,12 +227,12 @@ namespace PythagoraSwitch.WebRequest
                     Method = HttpMethod.Get.ToString(),
                     EndPoint = urlBuilder.Path,
                     RequestContent = queryObject,
+                    Headers = requestConfig.Headers
                 };
                 requestRecordContent.RequestStart();
                 _recorder.Add(requestRecordContent);
             }
 
-            var requestConfig = overwriteConfig ?? _config; 
             var requestUrl = $"{uri}&{queryObject.ToQueryString()}";
 
             var message = string.Empty;
