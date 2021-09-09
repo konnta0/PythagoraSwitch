@@ -12,11 +12,12 @@ namespace PythagoraSwitch.Test
         {
             return new List<IPsRequestRecordContent>
             {
-                PsRequestRecordContent.Create(
-                    new TimeSpan(0),
-                    "api/dummy/path",
-                    "GET",
-                    new DummyWebContent.DummyRequestContent
+                new PsRequestRecordContent
+                {
+                    Interval = new TimeSpan(0),
+                    EndPoint = "api/dummy/path",
+                    Method = "GET",
+                    RequestContent = new DummyWebContent.DummyRequestContent
                     {
                         Id = 123,
                         innner = new DummyWebContent.InnerObject
@@ -24,13 +25,14 @@ namespace PythagoraSwitch.Test
                             InnerMessage = "inner_message"
                         }
                     }
-                ),
-                PsRequestRecordContent.Create(
-                    new TimeSpan(20),
-                    "api/dummy/path",
-                    "GET",
-                    new DummyWebContent.DummyRequestContent()
-                )
+                }
+                ,
+                new PsRequestRecordContent{
+                    Interval = new TimeSpan(20),
+                    EndPoint = "api/dummy/path",
+                    Method = "GET",
+                    RequestContent = new DummyWebContent.DummyRequestContent()
+                }
             };
         }
     }
