@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using PythagoraSwitch.Recorder.Interfaces;
-using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.Recorder
 {
@@ -13,9 +12,11 @@ namespace PythagoraSwitch.Recorder
 
         public string Method { get; set; }
 
-        public IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers { get; set; }
+        public List<KeyValuePair<string, List<string>>> Headers { get; set; }
 
-        public IPsWebRequestContent RequestContent { get; set; }
+        public object RequestContent { get; set; }
+
+        public Type RequestContentType { get; set; }
 
         private DateTime _requestStartAt;
 

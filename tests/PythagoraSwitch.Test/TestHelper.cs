@@ -35,10 +35,10 @@ namespace PythagoraSwitch.Test
             });
             config.Setup(x => x.RetrySleepDurationProvider)
                 .Returns(retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-            config.Setup(x => x.Headers).Returns(new List<KeyValuePair<string, IEnumerable<string>>>(
+            config.Setup(x => x.Headers).Returns(new List<KeyValuePair<string, List<string>>>(
                 new[]
                 {
-                    new KeyValuePair<string, IEnumerable<string>>("Authorization", new string[] {"Bearer Test"}),
+                    new KeyValuePair<string, List<string>>("Authorization", new List<string> {"Bearer Test"}),
                 }));
             return config;
         }

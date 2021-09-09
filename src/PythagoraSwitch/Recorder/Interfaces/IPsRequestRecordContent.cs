@@ -11,8 +11,10 @@ namespace PythagoraSwitch.Recorder.Interfaces
 
         string Method { get; set; }
 
-        IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers { get; set; }
+        List<KeyValuePair<string, List<string>>> Headers { get; set; }
 
-        PythagoraSwitch.WebRequest.Interfaces.IPsWebRequestContent RequestContent { get; set; }
+        object RequestContent { get; set; }
+
+        Type RequestContentType { get; set; }
     }
 }

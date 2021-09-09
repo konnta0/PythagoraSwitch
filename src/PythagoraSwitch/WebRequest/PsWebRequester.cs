@@ -119,6 +119,7 @@ namespace PythagoraSwitch.WebRequest
                     Method = HttpMethod.Post.ToString(),
                     EndPoint = urlBuilder.Path,
                     RequestContent = body,
+                    RequestContentType = typeof(TReq),
                     Headers = requestConfig.Headers
                 };
                 requestRecordContent.RequestStart();
@@ -227,6 +228,7 @@ namespace PythagoraSwitch.WebRequest
                     Method = HttpMethod.Get.ToString(),
                     EndPoint = urlBuilder.Path,
                     RequestContent = queryObject,
+                    RequestContentType = typeof(TGetReq),
                     Headers = requestConfig.Headers
                 };
                 requestRecordContent.RequestStart();
