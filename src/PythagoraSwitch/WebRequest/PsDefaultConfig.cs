@@ -18,8 +18,8 @@ namespace PythagoraSwitch.WebRequest
         public Func<int, TimeSpan> RetrySleepDurationProvider =>
             retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
 
-        public IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers =>
-            new List<KeyValuePair<string, IEnumerable<string>>>();
+        public List<KeyValuePair<string, List<string>>> Headers =>
+            new List<KeyValuePair<string, List<string>>>();
         public int QueueWatchDelayMilliseconds => 20;
         public bool RequestRecording => true;
     }

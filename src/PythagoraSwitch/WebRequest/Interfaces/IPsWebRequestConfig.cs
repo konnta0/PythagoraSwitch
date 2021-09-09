@@ -10,6 +10,6 @@ namespace PythagoraSwitch.WebRequest.Interfaces
         int RetryCount { get; }
         HttpStatusCode[] RetryHttpStatusCodes { get; }
         Func<int, TimeSpan> RetrySleepDurationProvider { get; }
-        IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers { get; }
+        List<KeyValuePair<string, List<string>>> Headers { get; }
     }
 }
