@@ -15,8 +15,8 @@ namespace PythagoraSwitch.Test
         {
             var queue = new PsRequestQueue();
 
-            var request1 = new Request { HandleTask = new Task<(string, IErrors)>(() => (string.Empty, Errors.Nothing())), OnResponse = tuple => {}};
-            var request2 = new Request { HandleTask = new Task<(string, IErrors)>(() => (string.Empty, Errors.Nothing())), OnResponse = tuple => {}};
+            var request1 = new Request { HandleTask = new Task<(string, IErrors)>(() => (string.Empty, Errors.Nothing())), OnResponse = _ => {}};
+            var request2 = new Request { HandleTask = new Task<(string, IErrors)>(() => (string.Empty, Errors.Nothing())), OnResponse = _ => {}};
 
             queue.Enqueue(request1);
             queue.Enqueue(request2);
@@ -28,14 +28,15 @@ namespace PythagoraSwitch.Test
         
 
         [Fact(Timeout = 400)]
-        public async void WatchRequestQueueTest()
+        public void WatchRequestQueueTest()
         {
             var tokenSource = new CancellationTokenSource();
             var queue = new PsRequestQueue();
-            var request1 = new Request { HandleTask = new Task<(string, IErrors)>(() => (string.Empty, Errors.Nothing())), OnResponse = tuple => {}};
+            var request1 = new Request { HandleTask = new Task<(string, IErrors)>(() => (string.Empty, Errors.Nothing())), OnResponse = _ => {}};
 
             queue.WatchRequestQueue(200, delegate(IPsRequest request)
             {
+                if (request == null) throw new ArgumentNullException(nameof(request));
                 Assert.Same(request1, request);
             },tokenSource.Token);
 
