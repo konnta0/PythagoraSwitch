@@ -5,11 +5,7 @@ using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
 using PythagoraSwitch.Player.Interfaces;
 using PythagoraSwitch.Recorder.Interfaces;
-using YamlDotNet.Core;
-using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization.Utilities;
 
 namespace PythagoraSwitch.Player
 {
