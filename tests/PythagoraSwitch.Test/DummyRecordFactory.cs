@@ -24,14 +24,16 @@ namespace PythagoraSwitch.Test
                         {
                             InnerMessage = "inner_message"
                         }
-                    }
+                    },
+                    RequestContentType = typeof(DummyWebContent.DummyRequestContent)
                 }
                 ,
                 new PsRequestRecordContent{
                     Interval = new TimeSpan(20),
                     EndPoint = "api/dummy/path",
                     Method = "GET",
-                    RequestContent = new DummyWebContent.DummyRequestContent()
+                    RequestContent = new DummyWebContent.DummyRequestContent(),
+                    RequestContentType = typeof(DummyWebContent.DummyRequestContent)
                 }
             };
         }

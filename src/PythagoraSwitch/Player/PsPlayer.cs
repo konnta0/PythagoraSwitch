@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using konnta0.Exceptions;
 using PythagoraSwitch.Player.Interfaces;
+using PythagoraSwitch.Recorder;
 using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.Player
@@ -18,7 +19,7 @@ namespace PythagoraSwitch.Player
 
         public async Task<IErrors> Handle(string path)
         {
-            var (contents, error) = _importer.Handle(path);
+            var (contents, error) = _importer.Handle<PsRequestRecordContent>(path);
             if (Errors.IsOccurred(error)) return error;
 
             foreach (var content in contents)

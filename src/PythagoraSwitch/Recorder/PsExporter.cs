@@ -22,7 +22,7 @@ namespace PythagoraSwitch.Recorder
 
         public (string, IErrors) Handle(IList<IPsRequestRecordContent> contents)
         {
-            var (path, error) = Errors.Try<string>(delegate
+            var (path, error) = Errors.Try(delegate
             {
                 var (text, serializeError) = Serialize(contents);
                 if (Errors.IsOccurred(serializeError))

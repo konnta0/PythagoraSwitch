@@ -19,15 +19,17 @@ namespace PythagoraSwitch.Test.Importer
             var (outPath, _) = exporter.Handle(DummyRecordFactory.Create());
             _outPah = outPath;
             var importer = PsImporterFactory.Create();
-            var (contents, error) = importer.Handle(_outPah);
+            var (contents, error) = importer.Handle<PsRequestRecordContent>(_outPah);
+
             Assert.False(Errors.IsOccurred(error));
+            Assert.Equal(2, contents.Count);
         }
 
         [Fact]
         private void HandleFileNotFoundError()
         {
             var importer = PsImporterFactory.Create();
-            var (contents, error) = importer.Handle("dummy");
+            var (contents, error) = importer.Handle<PsRequestRecordContent>("dummy");
             Assert.True(Errors.IsOccurred(error));
             Assert.True(error.Is<FileNotFoundException>());
         }
