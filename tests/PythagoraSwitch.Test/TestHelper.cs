@@ -52,7 +52,7 @@ namespace PythagoraSwitch.Test
         {
             var requestQueue = new Mock<IPsRequestQueue>();
             var queue = new Queue<IPsRequest>();
-            async Task Action(int delay, Action<IPsRequest> callback)
+            async Task Action(int delay, Action<IPsRequest> callback, CancellationToken t)
             {
                 while (!token.IsCancellationRequested)
                 {
@@ -61,10 +61,13 @@ namespace PythagoraSwitch.Test
                     callback(requestQueue.Object.Dequeue());
                 }
             }
-            requestQueue.Setup(x => x.WatchRequestQueue(It.IsAny<int>(), It.IsAny<Action<IPsRequest>>(), CancellationToken.None))
-                .Callback<int, Action<IPsRequest>>(async (i, act) =>
+            requestQueue.Setup(
+                    x => x.WatchRequestQueue(It.IsAny<int>(),
+                        It.IsAny<Action<IPsRequest>>(),
+                        It.IsAny<CancellationToken>()))
+                .Callback<int, Action<IPsRequest>, CancellationToken>(async (i, act, t) =>
                 {
-                    _ = await Errors.TryTask(Action(i, act));
+                    _ = await Errors.TryTask(Action(i, act, t));
                 });
             requestQueue.Setup(x => x.Enqueue(It.IsAny<IPsRequest>())).Callback<IPsRequest>(request =>
             {
