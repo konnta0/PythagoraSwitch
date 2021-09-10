@@ -11,7 +11,7 @@ namespace PythagoraSwitch.Test
 {
     public class PsWebRequestTests
     {
-        [Fact]
+        [Fact(Timeout = 300)]
         public async void SimpleGetRequestTest()
         {
             var psHttpClientFactoryMock = TestHelper.CreatePsHttpClientFactoryMock(HttpMethod.Get, "/api/dummy/get");
@@ -36,7 +36,7 @@ namespace PythagoraSwitch.Test
             Assert.Equal("hogehoge", response.hoge);
         }
         
-        [Fact]
+        [Fact(Timeout = 300)]
         public async void SimplePostRequestTest()
         {
             var psHttpClientFactoryMock = TestHelper.CreatePsHttpClientFactoryMock(HttpMethod.Post, "/api/dummy/post");
