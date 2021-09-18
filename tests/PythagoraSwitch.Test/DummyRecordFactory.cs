@@ -8,11 +8,16 @@ namespace PythagoraSwitch.Test
 {
     internal static class DummyRecordFactory
     {
-        public static List<IPsRequestRecordContent> Create()
+        public static List<IPsRequestRecordContent> CreateByInterface()
         {
-            return new List<IPsRequestRecordContent>
+            return new List<IPsRequestRecordContent>(Create());;
+        }
+        
+        public static List<PsRequestRecordContent> Create()
+        {
+            return new List<PsRequestRecordContent>
             {
-                new PsRequestRecordContent
+                new()
                 {
                     Interval = new TimeSpan(0),
                     EndPoint = "api/dummy/path",
@@ -28,7 +33,8 @@ namespace PythagoraSwitch.Test
                     RequestContentType = typeof(DummyWebContent.DummyRequestContent)
                 }
                 ,
-                new PsRequestRecordContent{
+                new()
+                {
                     Interval = new TimeSpan(20),
                     EndPoint = "api/dummy/path",
                     Method = "GET",
