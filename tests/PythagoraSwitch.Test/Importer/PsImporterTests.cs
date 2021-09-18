@@ -16,7 +16,7 @@ namespace PythagoraSwitch.Test.Importer
         {
             var exporterConfig = new DefaultExporterConfig();
             var exporter = new PsExporter(exporterConfig, LoggerFactory.Create<PsExporter>());
-            var (outPath, _) = exporter.Handle(DummyRecordFactory.Create());
+            var (outPath, _) = exporter.Handle(DummyRecordFactory.CreateByInterface());
             _outPah = outPath;
             var importer = PsImporterFactory.Create();
             var (contents, error) = importer.Handle<PsRequestRecordContent>(_outPah);
