@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using konnta0.Exceptions;
 using PythagoraSwitch.Player.Interfaces;
-using PythagoraSwitch.Recorder;
 using PythagoraSwitch.Recorder.Interfaces;
 using PythagoraSwitch.WebRequest.Interfaces;
 
