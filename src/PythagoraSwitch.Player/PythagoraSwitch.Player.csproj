@@ -5,4 +5,10 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="konnta0.Errors" Version="0.2.1" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+      <PackageReference Include="YamlDotNet" Version="11.2.1" />
+    </ItemGroup>
+
 </Project>
