@@ -14,6 +14,9 @@
     <RootNamespace>PythagoraSwitch</RootNamespace>
     <PackageId>PythagoraSwitch</PackageId>
     <Product>PythagoraSwitch</Product>
+    <PackageVersion>0.0.1</PackageVersion>
+    <RepositoryUrl>https://github.com/konnta0/PythagoraSwitch</RepositoryUrl>
+    <Description>A tool that allows you to make simple Web requests and record/play them back.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
