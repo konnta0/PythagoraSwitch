@@ -242,9 +242,9 @@ namespace PythagoraSwitch.WebRequest
             {
                 var client = CreateClient(requestConfig);
                 var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
-                foreach (var requestConfigHeader in requestConfig.Headers)
+                foreach (var (key, value) in requestConfig.Headers)
                 {
-                    requestMessage.Headers.Add(requestConfigHeader.Key, requestConfigHeader.Value);
+                    requestMessage.Headers.Add(key, value);
                 }
 
                 _logger.LogInformation("[Http] REQUEST method:GET url:{Url}", requestUrl);
