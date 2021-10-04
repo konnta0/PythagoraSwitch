@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using konnta0.Exceptions;
 using Microsoft.Extensions.Logging;
+using PythagoraSwitch.Recorder.Interfaces;
 using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 using YamlDotNet.Serialization;
 
-namespace PythagoraSwitch.WebRequest.Recorder
+namespace PythagoraSwitch.Recorder
 {
-    public class PsExporter : IPsExporter
+    public sealed class PsExporter : IPsExporter
     {
         private readonly IPsExporterConfig _config;
         private readonly ILogger<PsExporter> _logger;
@@ -19,9 +20,9 @@ namespace PythagoraSwitch.WebRequest.Recorder
             _logger = logger;
         }
 
-        public IErrors Handle(IList<IPsRecordContent> contents)
+        public (string, IErrors) Handle(IList<IPsRequestRecordContent> contents)
         {
-            var error = Errors.Try(delegate
+            var (path, error) = Errors.Try(delegate
             {
                 var (text, serializeError) = Serialize(contents);
                 if (Errors.IsOccurred(serializeError))
@@ -33,16 +34,17 @@ namespace PythagoraSwitch.WebRequest.Recorder
                     $"{_config.FilePrefix}-{DateTime.Now:yyyyMMddHHmmss}.yaml");
                 using var writer = File.CreateText(filePath);
                 writer.Write(text);
+                return filePath;
             });
 
             if (Errors.IsOccurred(error))
             {
                 _logger.LogError($"Export failed. reason: {error.Exception.Message}");
             }
-            return error;
+            return (path, error);
         }
 
-        private static (string, IErrors) Serialize(IList<IPsRecordContent> contents)
+        private static (string, IErrors) Serialize(IList<IPsRequestRecordContent> contents)
         {
             var serializedString = string.Empty;
             var errors = Errors.Try(delegate

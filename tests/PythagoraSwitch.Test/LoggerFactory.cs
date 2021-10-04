@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace PythagoraSwitch.Test.Recorder
+namespace PythagoraSwitch.Test
 {
     internal static class LoggerFactory
     {

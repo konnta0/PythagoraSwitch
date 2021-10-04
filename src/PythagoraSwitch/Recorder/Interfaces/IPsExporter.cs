@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using konnta0.Exceptions;
+using PythagoraSwitch.WebRequest.Recorder.Interfaces;
 
-namespace PythagoraSwitch.WebRequest.Recorder.Interfaces
+namespace PythagoraSwitch.Recorder.Interfaces
 {
     public interface IPsExporter
     {
-        IErrors Handle(IList<IPsRecordContent> contents);
+        (string, IErrors) Handle(IList<IPsRequestRecordContent> contents);
     }
 }
