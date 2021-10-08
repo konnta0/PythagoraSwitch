@@ -1,4 +1,4 @@
-﻿namespace PythagoraSwitch.WebRequest.Recorder.Interfaces
+﻿namespace PythagoraSwitch.Recorder.Interfaces
 {
     interface IPsRecorderConfig
     {

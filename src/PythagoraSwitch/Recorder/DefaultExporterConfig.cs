@@ -1,4 +1,4 @@
-using PythagoraSwitch.WebRequest.Recorder.Interfaces;
+using PythagoraSwitch.Recorder.Interfaces;
 
 namespace PythagoraSwitch.Recorder
 {
