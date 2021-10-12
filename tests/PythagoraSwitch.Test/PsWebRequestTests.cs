@@ -2,7 +2,6 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using konnta0.Exceptions;
-using Microsoft.Extensions.Logging;
 using PythagoraSwitch.Recorder;
 using PythagoraSwitch.WebRequest;
 using Xunit;
