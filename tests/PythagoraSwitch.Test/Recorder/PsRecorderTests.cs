@@ -9,7 +9,7 @@ namespace PythagoraSwitch.Test.Recorder
         [Fact]
         internal void Start()
         {
-            var recorder = new PsRecorder(new PsExporter(new DefaultExporterConfig(), LoggerFactory.Create<PsExporter>()));
+            var recorder = new PsRecorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
             Assert.Equal(Errors.Nothing(), recorder.Start());
 
             // already started
@@ -21,7 +21,7 @@ namespace PythagoraSwitch.Test.Recorder
         [Fact]
         internal void Stop()
         {
-            var recorder = new PsRecorder(new PsExporter(new DefaultExporterConfig(), LoggerFactory.Create<PsExporter>()));
+            var recorder = new PsRecorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
 
             // not started
             var error = recorder.Stop();

@@ -3,7 +3,7 @@ using konnta0.Exceptions;
 
 namespace PythagoraSwitch.Recorder.Interfaces
 {
-    public interface IPsExporter
+    public interface IWebRequestExporter
     {
         (string, IErrors) Handle(IList<IPsRequestRecordContent> contents);
     }

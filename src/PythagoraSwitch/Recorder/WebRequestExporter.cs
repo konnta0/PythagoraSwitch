@@ -8,12 +8,12 @@ using YamlDotNet.Serialization;
 
 namespace PythagoraSwitch.Recorder
 {
-    public sealed class PsExporter : IPsExporter
+    public sealed class WebRequestExporter : IWebRequestExporter
     {
         private readonly IPsExporterConfig _config;
-        private readonly ILogger<PsExporter> _logger;
+        private readonly ILogger<WebRequestExporter> _logger;
 
-        public PsExporter(IPsExporterConfig config, ILogger<PsExporter> logger)
+        public WebRequestExporter(IPsExporterConfig config, ILogger<WebRequestExporter> logger)
         {
             _config = config;
             _logger = logger;

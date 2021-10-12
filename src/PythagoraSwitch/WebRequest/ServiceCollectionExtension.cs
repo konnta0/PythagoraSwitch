@@ -16,7 +16,7 @@ namespace PythagoraSwitch.WebRequest
             serviceCollection.AddSingleton<IPsWebRequesting, PsWebRequester>();
             serviceCollection.AddSingleton<IPsWebRequester, PsWebRequester>();
             serviceCollection.AddSingleton<IPsRecorder, PsRecorder>();
-            serviceCollection.AddSingleton<IPsExporter, PsExporter>();
+            serviceCollection.AddSingleton<IWebRequestExporter, WebRequestExporter>();
             return serviceCollection;
         }
 

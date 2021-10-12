@@ -1,19 +1,38 @@
 using System;
+using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using konnta0.Exceptions;
-using PythagoraSwitch.Recorder.Interfaces;
+using PythagoraSwitch.WebRequest;
 using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.Recorder
 {
-    public class RequestInterceptor : IPsRequestInterceptor
+    internal class RequestInterceptor : IPsRequestInterceptor
     {
-        private readonly IPsRecorder _recorder;
+        public Func<RequestInfo, Task<(IPsWebResponseContent, IErrors)>> NextFunc { get; set; }
 
-        public Func<IPsWebRequestContent, (IPsWebResponseContent, IErrors)> NextFunc { get; set; }
-        
-        public (IPsWebResponseContent, IErrors) Handle(IPsWebRequestContent content)
+        private readonly IPsNetworkAccess _networkAccess;
+        private readonly IPsSerializer _serializer;
+
+        public RequestInterceptor(IPsSerializer serializer, IPsNetworkAccess networkAccess)
         {
-            return NextFunc(content);
+            _serializer = serializer;
+            _networkAccess = networkAccess;
+        }
+
+        public async Task<(IPsWebResponseContent, IErrors)> Handle(RequestInfo content)
+        {
+            var validNetworkAccess = ValidNetworkAccess();
+            if (validNetworkAccess != null)
+            {
+                return (default, validNetworkAccess);
+            }
+            return await NextFunc(content);
+        }
+        
+        private IErrors ValidNetworkAccess()
+        {
+            return _networkAccess.IsValid() ? Errors.Nothing() : Errors.New<NetworkInformationException>();
         }
     }
 }

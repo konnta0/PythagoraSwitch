@@ -9,10 +9,10 @@ namespace PythagoraSwitch.Recorder
     {
         private readonly List<IPsRequestRecordContent> _recordContents = new List<IPsRequestRecordContent>();
         private bool _recording;
-        private readonly IPsExporter _exporter;
+        private readonly IWebRequestExporter _exporter;
         private DateTime _startAt;
 
-        public PsRecorder(IPsExporter exporter)
+        public PsRecorder(IWebRequestExporter exporter)
         {
             _exporter = exporter;
         }

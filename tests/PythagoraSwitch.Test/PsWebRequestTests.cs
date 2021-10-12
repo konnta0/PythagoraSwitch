@@ -28,7 +28,7 @@ namespace PythagoraSwitch.Test
                 new PsJsonSerializer(),
                 requestQueue.Object,
                 psHttpClientFactoryMock.Object,
-                new PsRecorder(new PsExporter(new DefaultExporterConfig(), LoggerFactory.Create<PsExporter>())));
+                new PsRecorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>())));
             var (response, error) = await requester.GetAsync<DummyGetRequestContent, DummyGetResponseContent>(new Uri("http://pstest/api/dummy/get"), new DummyGetRequestContent());
             tokenSource.Cancel();
             Assert.False(Errors.IsOccurred(error), $"message: {error?.Exception.Message} \n trace: {error?.Exception.StackTrace}");
@@ -53,7 +53,7 @@ namespace PythagoraSwitch.Test
                 new PsJsonSerializer(),
                 requestQueue.Object,
                 psHttpClientFactoryMock.Object,
-                new PsRecorder(new PsExporter(new DefaultExporterConfig(), LoggerFactory.Create<PsExporter>()))
+                new PsRecorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()))
                 );
             var (response, error) = await requester.PostAsync<DummyPostRequestContent, DummyPostResponseContent>(new Uri("http://pstest/api/dummy/post"), new DummyPostRequestContent());
             tokenSource.Cancel();
