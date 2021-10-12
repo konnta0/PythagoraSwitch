@@ -43,7 +43,7 @@ namespace PythagoraSwitch.Test
             return config;
         }
 
-        public static Mock<ILogger<PsWebRequester>> CreateLoggerMock()
+        public static Mock<ILogger<WebRequestHandler>> CreateLoggerMock()
         {
             return new();
         }

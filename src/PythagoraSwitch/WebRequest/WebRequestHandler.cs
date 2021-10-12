@@ -15,9 +15,9 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public sealed class PsWebRequester : IPsWebRequester, IPsWebRequesting
+    public sealed class WebRequestHandler : IWebRequestHandler, IPsWebRequesting
     {
-        private readonly ILogger<PsWebRequester> _logger;
+        private readonly ILogger<WebRequestHandler> _logger;
         private readonly IPsNetworkAccess _networkAccess;
         private readonly IPsConfig _config;
         private readonly IPsSerializer _serializer;
@@ -27,8 +27,8 @@ namespace PythagoraSwitch.WebRequest
 
         public bool Doing { get; private set; }
         
-        public PsWebRequester(
-            ILogger<PsWebRequester> logger,
+        public WebRequestHandler(
+            ILogger<WebRequestHandler> logger,
             IPsNetworkAccess networkAccess,
             IPsConfig config,
             IPsSerializer serializer,

@@ -4,7 +4,7 @@ using konnta0.Exceptions;
 
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
-    public interface IPsWebRequester
+    public interface IWebRequestHandler
     {
         Task<(TRes, IErrors)> PostAsync<TReq, TRes>(Uri uri, TReq body, IPsWebRequestConfig overwriteConfig = null) 
             where TReq : IPsWebPostRequestContent where TRes : IPsWebResponseContent; 

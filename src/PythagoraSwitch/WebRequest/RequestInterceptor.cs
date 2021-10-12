@@ -2,12 +2,11 @@ using System;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
-using PythagoraSwitch.WebRequest;
 using PythagoraSwitch.WebRequest.Interfaces;
 
-namespace PythagoraSwitch.Recorder
+namespace PythagoraSwitch.WebRequest
 {
-    internal class RequestInterceptor : IPsRequestInterceptor
+    internal class RequestInterceptor : IWebRequestInterceptor
     {
         public Func<RequestInfo, Task<(IPsWebResponseContent, IErrors)>> NextFunc { get; set; }
 

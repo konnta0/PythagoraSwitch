@@ -10,20 +10,20 @@ namespace PythagoraSwitch.WebRequest
 
     public class RequestInterceptors
     {
-        private List<IPsRequestInterceptor> _interceptors;
+        private List<IWebRequestInterceptor> _interceptors;
 
         public RequestInterceptors()
         {
-            _interceptors = new List<IPsRequestInterceptor>();
+            _interceptors = new List<IWebRequestInterceptor>();
         }
 
-        public void Add<T>(T interceptor) where T : IPsRequestInterceptor
+        public void Add<T>(T interceptor) where T : IWebRequestInterceptor
         {
             _interceptors.Add(interceptor);
         }
         
 
-        public void AddRange(List<IPsRequestInterceptor> interceptors)
+        public void AddRange(List<IWebRequestInterceptor> interceptors)
         {
             _interceptors.AddRange(interceptors);
         }
