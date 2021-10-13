@@ -7,12 +7,14 @@ namespace PythagoraSwitch.WebRequest
 {
     public class RequestInfo
     {
-        Uri Uri { get; set; }
+        public Uri Uri { get; set; }
 
-        HttpMethod Method { get; set; }
+        public HttpMethod Method { get; set; }
 
-        List<KeyValuePair<string, List<string>>> Headers { get; set; }
+        public List<KeyValuePair<string, List<string>>> Headers { get; set; }
 
-        IPsWebRequestContent RequestContent { get; set; }
+        public IPsWebRequestConfig Config { get; set; }
+
+        public IPsWebRequestContent Content { get; set; }
     }
 }
