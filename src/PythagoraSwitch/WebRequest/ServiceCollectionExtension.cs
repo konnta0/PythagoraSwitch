@@ -13,7 +13,6 @@ namespace PythagoraSwitch.WebRequest
             serviceCollection.AddSingleton<IPsHttpClientFactory, PsHttpClientFactory>();
             serviceCollection.AddSingleton<IPsSerializer, PsJsonSerializer>();
             serviceCollection.AddSingleton<IPsRequestQueue, PsRequestQueue>();
-            serviceCollection.AddSingleton<IPsWebRequesting, WebRequestHandler>();
             serviceCollection.AddSingleton<IWebRequestHandler, WebRequestHandler>();
             serviceCollection.AddSingleton<IPsRecorder, PsRecorder>();
             serviceCollection.AddSingleton<IWebRequestExporter, WebRequestExporter>();

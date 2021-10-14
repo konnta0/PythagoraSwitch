@@ -2,7 +2,6 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using konnta0.Exceptions;
-using PythagoraSwitch.Recorder;
 using PythagoraSwitch.WebRequest;
 using Xunit;
 
@@ -20,14 +19,14 @@ namespace PythagoraSwitch.Test
             var config = TestHelper.CreateConfigMock();
             using var tokenSource = new CancellationTokenSource();
             var requestQueue = TestHelper.CreatePsRequestQueueMock(tokenSource.Token);
+            var interceptor = TestHelper.CreateWebRequestInterceptor();
             var requester = new WebRequestHandler(
                 loggerMock.Object,
                 networkAccess.Object,
                 config.Object,
-                new PsJsonSerializer(),
                 requestQueue.Object,
-                psHttpClientFactoryMock.Object,
-                new PsRecorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>())));
+                interceptor.Object
+                );
             var (response, error) = await requester.GetAsync<DummyGetRequestContent, DummyGetResponseContent>(new Uri("http://pstest/api/dummy/get"), new DummyGetRequestContent());
             tokenSource.Cancel();
             Assert.False(Errors.IsOccurred(error), $"message: {error?.Exception.Message} \n trace: {error?.Exception.StackTrace}");
@@ -45,14 +44,14 @@ namespace PythagoraSwitch.Test
             var config = TestHelper.CreateConfigMock();
             using var tokenSource = new CancellationTokenSource();
             var requestQueue = TestHelper.CreatePsRequestQueueMock(tokenSource.Token);
+            var interceptor = TestHelper.CreateWebRequestInterceptor();
+
             var requester = new WebRequestHandler(
                 loggerMock.Object,
                 networkAccess.Object,
                 config.Object,
-                new PsJsonSerializer(),
                 requestQueue.Object,
-                psHttpClientFactoryMock.Object,
-                new PsRecorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()))
+                interceptor.Object
                 );
             var (response, error) = await requester.PostAsync<DummyPostRequestContent, DummyPostResponseContent>(new Uri("http://pstest/api/dummy/post"), new DummyPostRequestContent());
             tokenSource.Cancel();

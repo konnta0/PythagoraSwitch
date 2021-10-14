@@ -15,15 +15,13 @@ namespace PythagoraSwitch.Test
         {
             var queue = new PsRequestQueue();
 
-            var request1 = new Request { HandleTask = new Task<(string, IErrors)>(() => (string.Empty, Errors.Nothing())), OnResponse = _ => {}};
-            var request2 = new Request { HandleTask = new Task<(string, IErrors)>(() => (string.Empty, Errors.Nothing())), OnResponse = _ => {}};
+            var request1 = Task.Run(() => {});
+            var request2 = Task.Run(() => {});
 
             queue.Enqueue(request1);
             queue.Enqueue(request2);
             Assert.Same(request1, queue.Dequeue());
             Assert.Same(request2, queue.Dequeue());
-
-            Assert.Throws<InvalidOperationException>(() => queue.Dequeue());
         }
         
 
@@ -32,12 +30,12 @@ namespace PythagoraSwitch.Test
         {
             var tokenSource = new CancellationTokenSource();
             var queue = new PsRequestQueue();
-            var request1 = new Request { HandleTask = new Task<(string, IErrors)>(() => (string.Empty, Errors.Nothing())), OnResponse = _ => {}};
+            var request1 = Task.Delay(100);
 
-            queue.WatchRequestQueue(200, delegate(IPsRequest request)
+            queue.WatchRequestQueue(200, delegate(Task t)
             {
-                if (request == null) throw new ArgumentNullException(nameof(request));
-                Assert.Same(request1, request);
+                if (t == null) throw new ArgumentNullException(nameof(t));
+                Assert.Same(request1, t);
             },tokenSource.Token);
 
             queue.Enqueue(request1);

@@ -2,37 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using konnta0.Exceptions;
 using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public class Request : IPsRequest
-    {
-        public Task<(string, IErrors)> HandleTask { get; set; }
-        public Action<(string, IErrors)> OnResponse { get; set; }
-    }
-
     public sealed class PsRequestQueue : IPsRequestQueue
     {
-        private readonly Queue<IPsRequest> _requestQueue;
+        private readonly Queue<Task> _requestQueue;
 
         public PsRequestQueue()
         {
-            _requestQueue = new Queue<IPsRequest>();
+            _requestQueue = new Queue<Task>();
         }
 
-        public void Enqueue(IPsRequest request)
+        public void Enqueue(Task requestTask)
         {
-            _requestQueue.Enqueue(request);
+            _requestQueue.Enqueue(requestTask);
         }
 
-        public IPsRequest Dequeue()
+        public Task Dequeue()
         {
             return _requestQueue.Dequeue();
         }
 
-        public async void WatchRequestQueue(int queueWatchDelayMilliseconds, Action<IPsRequest> requestCallback, CancellationToken token)
+        public async void WatchRequestQueue(int queueWatchDelayMilliseconds, Action<Task> requestCallback, CancellationToken token)
         {
             while (true)
             {

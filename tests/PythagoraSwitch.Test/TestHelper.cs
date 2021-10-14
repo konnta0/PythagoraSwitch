@@ -51,8 +51,8 @@ namespace PythagoraSwitch.Test
         public static Mock<IPsRequestQueue> CreatePsRequestQueueMock(CancellationToken token)
         {
             var requestQueue = new Mock<IPsRequestQueue>();
-            var queue = new Queue<IPsRequest>();
-            async Task Action(int delay, Action<IPsRequest> callback, CancellationToken t)
+            var queue = new Queue<Task>();
+            async Task Action(int delay, Action<Task> callback, CancellationToken t)
             {
                 while (!token.IsCancellationRequested)
                 {
@@ -63,13 +63,13 @@ namespace PythagoraSwitch.Test
             }
             requestQueue.Setup(
                     x => x.WatchRequestQueue(It.IsAny<int>(),
-                        It.IsAny<Action<IPsRequest>>(),
+                        It.IsAny<Action<Task>>(),
                         It.IsAny<CancellationToken>()))
-                .Callback<int, Action<IPsRequest>, CancellationToken>(async (i, act, t) =>
+                .Callback<int, Action<Task>, CancellationToken>(async (i, act, t) =>
                 {
                     _ = await Errors.TryTask(Action(i, act, t));
                 });
-            requestQueue.Setup(x => x.Enqueue(It.IsAny<IPsRequest>())).Callback<IPsRequest>(request =>
+            requestQueue.Setup(x => x.Enqueue(It.IsAny<Task>())).Callback<Task>(request =>
             {
                 queue.Enqueue(request);
             });
@@ -107,6 +107,12 @@ namespace PythagoraSwitch.Test
             factoryMock.Setup(m => m.Create())
                 .Returns(() => new HttpClient(handlerMock.Object, false));
             return factoryMock;
+        }
+
+        public static Mock<IWebRequestInterceptor> CreateWebRequestInterceptor()
+        {
+            var webRequestInterceptor = new Mock<IWebRequestInterceptor>();
+            return webRequestInterceptor;
         }
     }
 }

@@ -1,12 +1,13 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
     public interface IPsRequestQueue
     {
-        void Enqueue(IPsRequest request);
-        IPsRequest Dequeue();
-        void WatchRequestQueue(int queueWatchDelayMilliseconds, Action<IPsRequest> requestCallback, CancellationToken token);
+        void Enqueue(Task requestTask);
+        Task Dequeue();
+        void WatchRequestQueue(int queueWatchDelayMilliseconds, Action<Task> requestCallback, CancellationToken token);
     }
 }
