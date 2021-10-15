@@ -23,7 +23,7 @@ namespace PythagoraSwitch.WebRequest
             IPsNetworkAccess networkAccess,
             IPsConfig config,
             IPsRequestQueue requestQueue,
-            // IPsRecorder recorder,
+            // IRecorder recorder,
             IWebRequestInterceptor requestInterceptor)
         {
             _logger = logger;

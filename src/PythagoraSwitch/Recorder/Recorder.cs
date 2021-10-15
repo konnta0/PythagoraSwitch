@@ -5,14 +5,14 @@ using PythagoraSwitch.Recorder.Interfaces;
 
 namespace PythagoraSwitch.Recorder
 {
-    public sealed class PsRecorder : IPsRecorder
+    public sealed class Recorder : IRecorder
     {
         private readonly List<IRequestRecordContent> _recordContents = new List<IRequestRecordContent>();
         private bool _recording;
         private readonly IWebRequestExporter _exporter;
         private DateTime _startAt;
 
-        public PsRecorder(IWebRequestExporter exporter)
+        public Recorder(IWebRequestExporter exporter)
         {
             _exporter = exporter;
         }

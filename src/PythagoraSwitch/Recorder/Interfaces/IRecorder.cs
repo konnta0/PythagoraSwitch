@@ -2,7 +2,7 @@ using konnta0.Exceptions;
 
 namespace PythagoraSwitch.Recorder.Interfaces
 {
-    public interface IPsRecorder
+    public interface IRecorder
     {
         IErrors Start();
         void Add(IRequestRecordContent content);
