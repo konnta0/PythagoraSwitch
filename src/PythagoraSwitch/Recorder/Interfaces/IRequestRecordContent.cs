@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PythagoraSwitch.Recorder.Interfaces
 {
-    public interface IPsRequestRecordContent
+    public interface IRequestRecordContent
     {
         TimeSpan Interval { get; set; }
 

@@ -7,7 +7,7 @@ namespace PythagoraSwitch.Recorder
 {
     public sealed class PsRecorder : IPsRecorder
     {
-        private readonly List<IPsRequestRecordContent> _recordContents = new List<IPsRequestRecordContent>();
+        private readonly List<IRequestRecordContent> _recordContents = new List<IRequestRecordContent>();
         private bool _recording;
         private readonly IWebRequestExporter _exporter;
         private DateTime _startAt;
@@ -29,7 +29,7 @@ namespace PythagoraSwitch.Recorder
             return Errors.Nothing();
         }
 
-        public void Add(IPsRequestRecordContent content)
+        public void Add(IRequestRecordContent content)
         {
             if (!_recording)
             {

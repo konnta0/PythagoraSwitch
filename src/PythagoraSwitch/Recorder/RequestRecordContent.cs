@@ -4,7 +4,7 @@ using PythagoraSwitch.Recorder.Interfaces;
 
 namespace PythagoraSwitch.Recorder
 {
-    public sealed class PsRequestRecordContent : IPsRequestRecordContent
+    public sealed class RequestRecordContent : IRequestRecordContent
     {
         public TimeSpan Interval { get; set; }
 

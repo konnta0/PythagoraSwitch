@@ -5,7 +5,7 @@ namespace PythagoraSwitch.Recorder.Interfaces
     public interface IPsRecorder
     {
         IErrors Start();
-        void Add(IPsRequestRecordContent content);
+        void Add(IRequestRecordContent content);
         IErrors Stop();
         (string, IErrors) Export();
         IErrors Clear();

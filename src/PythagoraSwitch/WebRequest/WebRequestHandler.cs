@@ -104,7 +104,7 @@ namespace PythagoraSwitch.WebRequest
         //     if (_config.RequestRecording)
         //     {
         //         var urlBuilder = new UriBuilder(uri);
-        //         var requestRecordContent = new PsRequestRecordContent
+        //         var requestRecordContent = new RequestRecordContent
         //         {
         //             Method = HttpMethod.Post.ToString(),
         //             EndPoint = urlBuilder.Path,
@@ -221,7 +221,7 @@ namespace PythagoraSwitch.WebRequest
         //     if (_config.RequestRecording)
         //     {
         //         var urlBuilder = new UriBuilder(uri);
-        //         var requestRecordContent = new PsRequestRecordContent
+        //         var requestRecordContent = new RequestRecordContent
         //         {
         //             Method = HttpMethod.Get.ToString(),
         //             EndPoint = urlBuilder.Path,
