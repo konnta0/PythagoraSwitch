@@ -7,7 +7,7 @@ using Xunit;
 
 namespace PythagoraSwitch.Test
 {
-    public class PsWebRequestTests
+    public class WebRequestHandlerTests
     {
         [Fact(Timeout = 300)]
         public async void SimpleGetRequestTest()
