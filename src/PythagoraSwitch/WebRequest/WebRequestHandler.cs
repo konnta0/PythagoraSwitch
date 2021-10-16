@@ -12,14 +12,14 @@ namespace PythagoraSwitch.WebRequest
     public sealed class WebRequestHandler : IWebRequestHandler
     {
         private readonly ILogger<WebRequestHandler> _logger;
-        private readonly IPsNetworkAccess _networkAccess;
+        private readonly INetworkAccess _networkAccess;
         private readonly IPsConfig _config;
         private readonly IPsRequestQueue _requestQueue;
         private readonly IWebRequestInterceptor _requestInterceptor;
         
         public WebRequestHandler(
             ILogger<WebRequestHandler> logger,
-            IPsNetworkAccess networkAccess,
+            INetworkAccess networkAccess,
             IPsConfig config,
             IPsRequestQueue requestQueue,
             IWebRequestInterceptor requestInterceptor)

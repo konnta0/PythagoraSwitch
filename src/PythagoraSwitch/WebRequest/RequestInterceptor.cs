@@ -16,11 +16,11 @@ namespace PythagoraSwitch.WebRequest
         public Func<RequestInfo, Task<(IPsWebResponseContent, IErrors)>> NextFunc { get; set; }
 
         private readonly ILogger<RequestInterceptor> _logger;
-        private readonly IPsNetworkAccess _networkAccess;
+        private readonly INetworkAccess _networkAccess;
         private readonly IPsSerializer _serializer;
         private readonly IPsHttpClientFactory _httpClientFactory;
 
-        public RequestInterceptor(IPsSerializer serializer, IPsNetworkAccess networkAccess, IPsHttpClientFactory httpClientFactory, ILogger<RequestInterceptor> logger)
+        public RequestInterceptor(IPsSerializer serializer, INetworkAccess networkAccess, IPsHttpClientFactory httpClientFactory, ILogger<RequestInterceptor> logger)
         {
             _serializer = serializer;
             _networkAccess = networkAccess;

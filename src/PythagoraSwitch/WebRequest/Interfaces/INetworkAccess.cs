@@ -1,6 +1,6 @@
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
-    public interface IPsNetworkAccess
+    public interface INetworkAccess
     {
         bool IsValid();
     }

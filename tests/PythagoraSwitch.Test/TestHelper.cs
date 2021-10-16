@@ -15,9 +15,9 @@ namespace PythagoraSwitch.Test
 {
     public class TestHelper
     {
-        public static Mock<IPsNetworkAccess> CreateNetworkAccessMock()
+        public static Mock<INetworkAccess> CreateNetworkAccessMock()
         {
-            var networkAccess = new Mock<IPsNetworkAccess>();
+            var networkAccess = new Mock<INetworkAccess>();
             networkAccess.Setup(x => x.IsValid()).Returns(true);
             return networkAccess;
         }
