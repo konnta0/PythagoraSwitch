@@ -48,9 +48,9 @@ namespace PythagoraSwitch.Test
             return new();
         }
 
-        public static Mock<IPsRequestQueue> CreatePsRequestQueueMock(CancellationToken token)
+        public static Mock<IRequestQueue> CreateRequestQueueMock(CancellationToken token)
         {
-            var requestQueue = new Mock<IPsRequestQueue>();
+            var requestQueue = new Mock<IRequestQueue>();
             var queue = new Queue<Task>();
             async Task Action(int delay, Action<Task> callback, CancellationToken t)
             {

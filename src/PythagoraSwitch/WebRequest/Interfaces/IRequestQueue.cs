@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
-    public interface IPsRequestQueue
+    public interface IRequestQueue
     {
         void Enqueue(Task requestTask);
         Task Dequeue();

@@ -6,11 +6,11 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public sealed class PsRequestQueue : IPsRequestQueue
+    public sealed class RequestQueue : IRequestQueue
     {
         private readonly Queue<Task> _requestQueue;
 
-        public PsRequestQueue()
+        public RequestQueue()
         {
             _requestQueue = new Queue<Task>();
         }

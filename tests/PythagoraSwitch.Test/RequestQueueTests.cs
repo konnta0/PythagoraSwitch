@@ -1,19 +1,17 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using konnta0.Exceptions;
 using PythagoraSwitch.WebRequest;
-using PythagoraSwitch.WebRequest.Interfaces;
 using Xunit;
 
 namespace PythagoraSwitch.Test
 {
-    public class PsRequestQueueTests
+    public class RequestQueueTests
     {
         [Fact]
         public void EnqueueDequeueTest()
         {
-            var queue = new PsRequestQueue();
+            var queue = new RequestQueue();
 
             var request1 = Task.Run(() => {});
             var request2 = Task.Run(() => {});
@@ -29,7 +27,7 @@ namespace PythagoraSwitch.Test
         public void WatchRequestQueueTest()
         {
             var tokenSource = new CancellationTokenSource();
-            var queue = new PsRequestQueue();
+            var queue = new RequestQueue();
             var request1 = Task.Delay(100);
 
             queue.WatchRequestQueue(200, delegate(Task t)

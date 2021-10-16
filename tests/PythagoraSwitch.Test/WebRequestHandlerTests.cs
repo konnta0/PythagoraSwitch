@@ -18,7 +18,7 @@ namespace PythagoraSwitch.Test
             var networkAccess = TestHelper.CreateNetworkAccessMock();
             var config = TestHelper.CreateConfigMock();
             using var tokenSource = new CancellationTokenSource();
-            var requestQueue = TestHelper.CreatePsRequestQueueMock(tokenSource.Token);
+            var requestQueue = TestHelper.CreateRequestQueueMock(tokenSource.Token);
             var interceptor = TestHelper.CreateWebRequestInterceptor();
             var requester = new WebRequestHandler(
                 loggerMock.Object,
@@ -43,7 +43,7 @@ namespace PythagoraSwitch.Test
             var networkAccess = TestHelper.CreateNetworkAccessMock();
             var config = TestHelper.CreateConfigMock();
             using var tokenSource = new CancellationTokenSource();
-            var requestQueue = TestHelper.CreatePsRequestQueueMock(tokenSource.Token);
+            var requestQueue = TestHelper.CreateRequestQueueMock(tokenSource.Token);
             var interceptor = TestHelper.CreateWebRequestInterceptor();
 
             var requester = new WebRequestHandler(
