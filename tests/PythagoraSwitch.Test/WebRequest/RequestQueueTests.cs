@@ -38,8 +38,9 @@ namespace PythagoraSwitch.Test.WebRequest
                 called++;
             },tokenSource.Token);
 
-            await Task.Delay(10);
             queue.Enqueue(request1);
+            await Task.Delay(10);
+
             tokenSource.Cancel();
             Assert.Equal(1, called);
         }
