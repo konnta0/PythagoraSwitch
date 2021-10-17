@@ -70,11 +70,12 @@ namespace PythagoraSwitch.WebRequest
                     ContentType = typeof(TReq)
                 });
                 
-                isDone = true;
-
                 error = interceptError;
-                if (Errors.IsOccurred(error)) return;
-                httpResponse = (TRes)response;
+                if (!Errors.IsOccurred(error))
+                {
+                    httpResponse = (TRes)response;
+                }
+                isDone = true;
             }
             
             _requestQueue.Enqueue(RequestTask());
@@ -117,11 +118,12 @@ namespace PythagoraSwitch.WebRequest
                     ContentType = typeof(TGetReq)
                 });
                 
-                isDone = true;
-
                 error = interceptError;
-                if (Errors.IsOccurred(error)) return;
-                httpResponse = (TRes)response;
+                if (!Errors.IsOccurred(error))
+                {
+                    httpResponse = (TRes)response;
+                }
+                isDone = true;
             }
             
             _requestQueue.Enqueue(RequestTask());
