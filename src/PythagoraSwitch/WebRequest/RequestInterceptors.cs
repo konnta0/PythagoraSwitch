@@ -15,6 +15,11 @@ namespace PythagoraSwitch.WebRequest
             _interceptors = new List<IWebRequestInterceptor>();
         }
 
+        public void Add<T>() where T : IWebRequestInterceptor, new()
+        {
+            Add(new T());    
+        }
+
         public void Add<T>(T interceptor) where T : IWebRequestInterceptor
         {
             _interceptors.Add(interceptor);
@@ -43,5 +48,7 @@ namespace PythagoraSwitch.WebRequest
 
             return await _interceptors.First().Handle(requestInfo);
         }
+
+        internal int Count => _interceptors.Count;
     }
 }

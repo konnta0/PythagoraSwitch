@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using PythagoraSwitch.WebRequest;
 using Xunit;
 
-namespace PythagoraSwitch.Test
+namespace PythagoraSwitch.Test.WebRequest
 {
     public class RequestQueueTests
     {
@@ -24,20 +24,24 @@ namespace PythagoraSwitch.Test
         
 
         [Fact(Timeout = 400)]
-        public void WatchRequestQueueTest()
+        public async void WatchRequestQueueTest()
         {
             var tokenSource = new CancellationTokenSource();
             var queue = new RequestQueue();
             var request1 = Task.Delay(100);
 
-            queue.WatchRequestQueue(200, delegate(Task t)
+            var called = 0;
+            queue.WatchRequestQueue(1, delegate(Task t)
             {
                 if (t == null) throw new ArgumentNullException(nameof(t));
                 Assert.Same(request1, t);
+                called++;
             },tokenSource.Token);
 
+            await Task.Delay(10);
             queue.Enqueue(request1);
             tokenSource.Cancel();
+            Assert.Equal(1, called);
         }
     }
 }

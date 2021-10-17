@@ -5,7 +5,7 @@ using konnta0.Exceptions;
 using PythagoraSwitch.WebRequest;
 using Xunit;
 
-namespace PythagoraSwitch.Test
+namespace PythagoraSwitch.Test.WebRequest
 {
     public class WebRequestHandlerTests
     {

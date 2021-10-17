@@ -11,7 +11,7 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    internal class RequestInterceptor : IWebRequestInterceptor
+    internal sealed class RequestInterceptor : IWebRequestInterceptor
     {
         public Func<RequestInfo, Task<(IPsWebResponseContent, IErrors)>> NextFunc { get; set; }
 
