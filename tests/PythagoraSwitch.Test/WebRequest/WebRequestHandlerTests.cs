@@ -45,14 +45,18 @@ namespace PythagoraSwitch.Test.WebRequest
         [Fact(Timeout = 300)]
         public async void SimplePostRequestTest()
         {
-            var psHttpClientFactoryMock = TestHelper.CreatePsHttpClientFactoryMock(HttpMethod.Post, "/api/dummy/post");
-
             var loggerMock = TestHelper.CreateLoggerMock();
             var networkAccess = TestHelper.CreateNetworkAccessMock();
             var config = TestHelper.CreateConfigMock();
             using var tokenSource = new CancellationTokenSource();
             var requestQueue = TestHelper.CreateRequestQueueMock(tokenSource.Token);
             var interceptor = TestHelper.CreateWebRequestInterceptor();
+            var dummyResponse = new DummyPostResponseContent
+            {
+                hoge = "hogehoge"
+            };
+            interceptor.Setup(m => m.Handle(It.IsAny<RequestInfo>()))
+                .ReturnsAsync(() => (dummyResponse, Errors.Nothing()));
 
             var handler = new WebRequestHandler(
                 loggerMock.Object,
