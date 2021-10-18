@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using konnta0.Exceptions;
+using Moq;
 using PythagoraSwitch.WebRequest;
 using Xunit;
 
@@ -12,14 +13,18 @@ namespace PythagoraSwitch.Test.WebRequest
         [Fact(Timeout = 300)]
         public async void SimpleGetRequestTest()
         {
-            var psHttpClientFactoryMock = TestHelper.CreatePsHttpClientFactoryMock(HttpMethod.Get, "/api/dummy/get");
-
             var loggerMock = TestHelper.CreateLoggerMock();
             var networkAccess = TestHelper.CreateNetworkAccessMock();
             var config = TestHelper.CreateConfigMock();
             using var tokenSource = new CancellationTokenSource();
             var requestQueue = TestHelper.CreateRequestQueueMock(tokenSource.Token);
             var interceptor = TestHelper.CreateWebRequestInterceptor();
+            var dummyResponse = new DummyGetResponseContent
+            {
+                hoge = "hogehoge"
+            };
+            interceptor.Setup(m => m.Handle(It.IsAny<RequestInfo>()))
+                .ReturnsAsync(() => (dummyResponse, Errors.Nothing()));
             var handler = new WebRequestHandler(
                 loggerMock.Object,
                 networkAccess.Object,
