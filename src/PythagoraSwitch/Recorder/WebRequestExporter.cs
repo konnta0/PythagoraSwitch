@@ -10,10 +10,10 @@ namespace PythagoraSwitch.Recorder
 {
     public sealed class WebRequestExporter : IWebRequestExporter
     {
-        private readonly IPsExporterConfig _config;
+        private readonly IExporterConfig _config;
         private readonly ILogger<WebRequestExporter> _logger;
 
-        public WebRequestExporter(IPsExporterConfig config, ILogger<WebRequestExporter> logger)
+        public WebRequestExporter(IExporterConfig config, ILogger<WebRequestExporter> logger)
         {
             _config = config;
             _logger = logger;

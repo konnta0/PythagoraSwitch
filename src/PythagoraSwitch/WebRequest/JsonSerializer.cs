@@ -4,7 +4,7 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public sealed class PsJsonSerializer : IPsSerializer
+    public sealed class JsonSerializer : ISerializer
     {
         public string ContentType => "application/json";
 
@@ -13,7 +13,7 @@ namespace PythagoraSwitch.WebRequest
             var str = string.Empty;
             var error = Errors.Try(() =>
             {
-                str = JsonSerializer.Serialize(req);
+                str = System.Text.Json.JsonSerializer.Serialize(req);
             });
             return (str, error);
         }
@@ -27,7 +27,7 @@ namespace PythagoraSwitch.WebRequest
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
                 }; 
-                responseContent = JsonSerializer.Deserialize<TRes>(message, options);
+                responseContent = System.Text.Json.JsonSerializer.Deserialize<TRes>(message, options);
             });
             return (responseContent, error);
         }

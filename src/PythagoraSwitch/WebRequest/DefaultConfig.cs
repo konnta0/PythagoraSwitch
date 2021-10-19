@@ -5,7 +5,7 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public sealed class PsDefaultConfig : IPsConfig
+    public sealed class DefaultConfig : IConfig
     {
         public TimeSpan Timeout => new TimeSpan(0, 0, 30);
         public int RetryCount => 3;

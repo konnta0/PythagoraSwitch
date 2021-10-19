@@ -3,7 +3,7 @@ using System.Net;
 
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
-    public interface IPsConfig : IPsWebRequestConfig
+    public interface IConfig : IWebRequestConfig
     {
         int QueueWatchDelayMilliseconds { get; }
         bool RequestRecording { get; }

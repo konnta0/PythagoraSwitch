@@ -17,10 +17,10 @@ namespace PythagoraSwitch.WebRequest
 
         private readonly ILogger<RequestInterceptor> _logger;
         private readonly INetworkAccess _networkAccess;
-        private readonly IPsSerializer _serializer;
-        private readonly IPsHttpClientFactory _httpClientFactory;
+        private readonly ISerializer _serializer;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public RequestInterceptor(IPsSerializer serializer, INetworkAccess networkAccess, IPsHttpClientFactory httpClientFactory, ILogger<RequestInterceptor> logger)
+        public RequestInterceptor(ISerializer serializer, INetworkAccess networkAccess, IHttpClientFactory httpClientFactory, ILogger<RequestInterceptor> logger)
         {
             _serializer = serializer;
             _networkAccess = networkAccess;
@@ -66,14 +66,14 @@ namespace PythagoraSwitch.WebRequest
             return _networkAccess.IsValid() ? Errors.Nothing() : Errors.New<NetworkInformationException>();
         }
 
-        private HttpClient CreateClient(IPsWebRequestConfig config)
+        private HttpClient CreateClient(IWebRequestConfig config)
         {
             var client = _httpClientFactory.Create();
             client.Timeout = config.Timeout;
             return client;
         }
         
-        private async Task<(string, IErrors)> RequestGetTask(IPsWebRequestConfig config, Uri requestUrl)
+        private async Task<(string, IErrors)> RequestGetTask(IWebRequestConfig config, Uri requestUrl)
         {
             var client = CreateClient(config);
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
@@ -100,7 +100,7 @@ namespace PythagoraSwitch.WebRequest
             return (message, Errors.Nothing());
         }
 
-        private async Task<(string, IErrors)> RequestPostTask(IPsWebRequestConfig config, Uri requestUrl, IPsWebRequestContent content)
+        private async Task<(string, IErrors)> RequestPostTask(IWebRequestConfig config, Uri requestUrl, IPsWebRequestContent content)
         {
             var (str, serializedError) = _serializer.Serialize(content);
             if (Errors.IsOccurred(serializedError))

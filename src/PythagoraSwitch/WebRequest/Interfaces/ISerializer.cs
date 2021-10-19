@@ -1,9 +1,8 @@
-using System.ComponentModel;
 using konnta0.Exceptions;
 
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
-    public interface IPsSerializer
+    public interface ISerializer
     {
         string ContentType { get; }
         (string, IErrors) Serialize<TReq>(TReq req) where TReq : IPsWebRequestContent;

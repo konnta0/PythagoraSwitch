@@ -1,9 +1,8 @@
-using System.Dynamic;
 using System.Net.Http;
 
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
-    public interface IPsHttpClientFactory
+    public interface IHttpClientFactory
     {
         HttpClient Create();
         HttpClient Create(HttpClientHandler clientHandler);

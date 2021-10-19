@@ -22,9 +22,9 @@ namespace PythagoraSwitch.Test
             return networkAccess;
         }
 
-        public static Mock<IPsConfig> CreateConfigMock()
+        public static Mock<IConfig> CreateConfigMock()
         {
-            var config = new Mock<IPsConfig>();
+            var config = new Mock<IConfig>();
             config.Setup(x => x.Timeout).Returns(new TimeSpan(0, 0, 30));
             config.Setup(x => x.QueueWatchDelayMilliseconds).Returns(20);
             config.Setup(x => x.RetryCount).Returns(1);
@@ -82,7 +82,7 @@ namespace PythagoraSwitch.Test
             Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken);
         }
 
-        public static Mock<IPsHttpClientFactory> CreatePsHttpClientFactoryMock(HttpMethod httpMethod, string pathAndQuery)
+        public static Mock<IHttpClientFactory> CreatePsHttpClientFactoryMock(HttpMethod httpMethod, string pathAndQuery)
         {
             var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock.Protected()
@@ -101,7 +101,7 @@ namespace PythagoraSwitch.Test
                     };
                     return Task.FromResult(httpResponseMessage);
                 });
-            var factoryMock = new Mock<IPsHttpClientFactory>();
+            var factoryMock = new Mock<IHttpClientFactory>();
             factoryMock.Setup(m => m.Create(It.IsAny<HttpClientHandler>()))
                 .Returns(() => new HttpClient(handlerMock.Object, false));
             factoryMock.Setup(m => m.Create())

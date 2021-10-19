@@ -3,7 +3,7 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public sealed class PsHttpClientFactory : IPsHttpClientFactory
+    public sealed class HttpClientFactory : IHttpClientFactory
     {
         public HttpClient Create()
         {

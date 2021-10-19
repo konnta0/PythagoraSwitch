@@ -1,6 +1,6 @@
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
-    public interface IPsWebPost<in TReq, TRes> : IPsWebCommunication<TReq, TRes>
+    public interface IWebPost<in TReq, TRes> : IWebCommunication<TReq, TRes>
         where TReq : IPsWebPostRequestContent where TRes : IPsWebResponseContent
     {
         

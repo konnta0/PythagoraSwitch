@@ -14,7 +14,7 @@ namespace PythagoraSwitch.Test
         public string hoge { get; set; }
     }
 
-    public class DummyGetRequest : IPsWebGet<DummyGetRequestContent, DummyGetResponseContent>
+    public class DummyGetRequest : IWebGet<DummyGetRequestContent, DummyGetResponseContent>
     {
         public Task<(DummyGetResponseContent, IErrors)> HandleRequest(DummyGetRequestContent req)
         {
@@ -32,7 +32,7 @@ namespace PythagoraSwitch.Test
         public string hoge { get; set; }
     }
 
-    public class DummyPostRequest : IPsWebPost<DummyPostRequestContent, DummyPostResponseContent>
+    public class DummyPostRequest : IWebPost<DummyPostRequestContent, DummyPostResponseContent>
     {
         public Task<(DummyPostResponseContent, IErrors)> HandleRequest(DummyPostRequestContent req)
         {

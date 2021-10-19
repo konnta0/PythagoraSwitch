@@ -1,6 +1,6 @@
 namespace PythagoraSwitch.Recorder.Interfaces
 {
-    public interface IPsExporterConfig
+    public interface IExporterConfig
     {
         string FilePrefix { get; }
         string OutPath { get;}

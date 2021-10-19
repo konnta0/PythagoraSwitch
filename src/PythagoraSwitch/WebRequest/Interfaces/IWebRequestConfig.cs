@@ -4,7 +4,7 @@ using System.Net;
 
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
-    public interface IPsWebRequestConfig
+    public interface IWebRequestConfig
     {
         TimeSpan Timeout { get; }
         int RetryCount { get; }

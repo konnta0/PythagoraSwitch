@@ -13,7 +13,7 @@ namespace PythagoraSwitch.WebRequest
 
         public List<KeyValuePair<string, List<string>>> Headers { get; set; }
 
-        public IPsWebRequestConfig Config { get; set; }
+        public IWebRequestConfig Config { get; set; }
 
         public IPsWebRequestContent Content { get; set; }
         
