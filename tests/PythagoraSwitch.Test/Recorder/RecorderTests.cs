@@ -4,7 +4,7 @@ using Xunit;
 
 namespace PythagoraSwitch.Test.Recorder
 {
-    public class PsRecorderTests
+    public class RecorderTests
     {
         [Fact]
         internal void Start()

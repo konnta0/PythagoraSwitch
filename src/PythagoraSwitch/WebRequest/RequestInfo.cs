@@ -15,7 +15,7 @@ namespace PythagoraSwitch.WebRequest
 
         public IWebRequestConfig Config { get; set; }
 
-        public IPsWebRequestContent Content { get; set; }
+        public IWebRequestContent Content { get; set; }
         
         public Type ContentType { get; set; }
     }

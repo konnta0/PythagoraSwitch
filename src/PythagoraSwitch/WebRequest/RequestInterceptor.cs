@@ -13,7 +13,7 @@ namespace PythagoraSwitch.WebRequest
 {
     internal sealed class RequestInterceptor : IWebRequestInterceptor
     {
-        public Func<RequestInfo, Task<(IPsWebResponseContent, IErrors)>> NextFunc { get; set; }
+        public Func<RequestInfo, Task<(IWebResponseContent, IErrors)>> NextFunc { get; set; }
 
         private readonly ILogger<RequestInterceptor> _logger;
         private readonly INetworkAccess _networkAccess;
@@ -28,7 +28,7 @@ namespace PythagoraSwitch.WebRequest
             _logger = logger;
         }
 
-        public async Task<(IPsWebResponseContent, IErrors)> Handle(RequestInfo requestInfo)
+        public async Task<(IWebResponseContent, IErrors)> Handle(RequestInfo requestInfo)
         {
             var validNetworkAccess = ValidNetworkAccess();
             if (validNetworkAccess != null)
@@ -100,7 +100,7 @@ namespace PythagoraSwitch.WebRequest
             return (message, Errors.Nothing());
         }
 
-        private async Task<(string, IErrors)> RequestPostTask(IWebRequestConfig config, Uri requestUrl, IPsWebRequestContent content)
+        private async Task<(string, IErrors)> RequestPostTask(IWebRequestConfig config, Uri requestUrl, IWebRequestContent content)
         {
             var (str, serializedError) = _serializer.Serialize(content);
             if (Errors.IsOccurred(serializedError))

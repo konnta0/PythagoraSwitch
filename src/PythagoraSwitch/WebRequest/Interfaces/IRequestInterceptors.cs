@@ -9,6 +9,6 @@ namespace PythagoraSwitch.WebRequest.Interfaces
         void Add<T>(T interceptor) where T : IWebRequestInterceptor;
         void AddRange(List<IWebRequestInterceptor> interceptors);
         void AddRange(RequestInterceptors requestInterceptors);
-        Task<(IPsWebResponseContent, IErrors)> Intercept(RequestInfo requestInfo);
+        Task<(IWebResponseContent, IErrors)> Intercept(RequestInfo requestInfo);
     }
 }

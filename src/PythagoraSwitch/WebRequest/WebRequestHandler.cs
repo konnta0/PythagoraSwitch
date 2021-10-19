@@ -40,7 +40,7 @@ namespace PythagoraSwitch.WebRequest
         }
         
         public async Task<(TRes, IErrors)> PostAsync<TReq, TRes>(Uri uri, TReq body, IOption option = null) 
-            where TReq : IPsWebPostRequestContent where TRes : IPsWebResponseContent
+            where TReq : IWebPostRequestContent where TRes : IWebResponseContent
         {
             var validNetworkAccess = ValidNetworkAccess();
             if (validNetworkAccess != null)
@@ -87,7 +87,7 @@ namespace PythagoraSwitch.WebRequest
         }
 
         public async Task<(TRes, IErrors)> GetAsync<TGetReq, TRes>(Uri uri, TGetReq queryObject, IOption option = null)
-            where TGetReq : IPsWebGetRequestContent where TRes : IPsWebResponseContent
+            where TGetReq : IWebGetRequestContent where TRes : IWebResponseContent
         {
             var validNetworkAccessError = ValidNetworkAccess();
             if (validNetworkAccessError != null)

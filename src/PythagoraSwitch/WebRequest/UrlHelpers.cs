@@ -7,7 +7,7 @@ namespace PythagoraSwitch.WebRequest
 {
     internal static class UrlHelpers
     {
-        internal static string ToQueryString(this IPsWebGetRequestContent request, string separator = ",")
+        internal static string ToQueryString(this IWebGetRequestContent request, string separator = ",")
         {
             if (request == null)
                 throw new ArgumentNullException("request");

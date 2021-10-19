@@ -39,7 +39,7 @@ namespace PythagoraSwitch.WebRequest
             AddRange(requestInterceptors._interceptors);
         }
 
-        public async Task<(IPsWebResponseContent, IErrors)> Intercept(RequestInfo requestInfo)
+        public async Task<(IWebResponseContent, IErrors)> Intercept(RequestInfo requestInfo)
         {
             if (_interceptors.Count == 0)
             {

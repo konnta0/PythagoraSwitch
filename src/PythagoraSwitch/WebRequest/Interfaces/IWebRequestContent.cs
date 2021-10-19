@@ -1,6 +1,6 @@
 namespace PythagoraSwitch.WebRequest.Interfaces
 {
-    public interface IPsWebRequestContent
+    public interface IWebRequestContent
     {
 
     }

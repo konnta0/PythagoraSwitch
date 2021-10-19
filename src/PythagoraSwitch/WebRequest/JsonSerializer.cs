@@ -8,7 +8,7 @@ namespace PythagoraSwitch.WebRequest
     {
         public string ContentType => "application/json";
 
-        public (string, IErrors) Serialize<TReq>(TReq req) where TReq : IPsWebRequestContent
+        public (string, IErrors) Serialize<TReq>(TReq req) where TReq : IWebRequestContent
         {
             var str = string.Empty;
             var error = Errors.Try(() =>
@@ -18,7 +18,7 @@ namespace PythagoraSwitch.WebRequest
             return (str, error);
         }
 
-        public (TRes, IErrors) Deserialize<TRes>(string message) where TRes : IPsWebResponseContent
+        public (TRes, IErrors) Deserialize<TRes>(string message) where TRes : IWebResponseContent
         {
             TRes responseContent = default;
             var error = Errors.Try(() =>
