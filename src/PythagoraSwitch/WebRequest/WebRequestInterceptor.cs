@@ -11,16 +11,16 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    internal sealed class RequestInterceptor : IWebRequestInterceptor
+    internal sealed class WebRequestInterceptor : IWebRequestInterceptor
     {
         public Func<RequestInfo, Task<(IWebResponseContent, IErrors)>> NextFunc { get; set; }
 
-        private readonly ILogger<RequestInterceptor> _logger;
+        private readonly ILogger<WebRequestInterceptor> _logger;
         private readonly INetworkAccess _networkAccess;
         private readonly ISerializer _serializer;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public RequestInterceptor(ISerializer serializer, INetworkAccess networkAccess, IHttpClientFactory httpClientFactory, ILogger<RequestInterceptor> logger)
+        public WebRequestInterceptor(ISerializer serializer, INetworkAccess networkAccess, IHttpClientFactory httpClientFactory, ILogger<WebRequestInterceptor> logger)
         {
             _serializer = serializer;
             _networkAccess = networkAccess;
