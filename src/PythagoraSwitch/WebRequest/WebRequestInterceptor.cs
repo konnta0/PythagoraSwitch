@@ -36,6 +36,7 @@ namespace PythagoraSwitch.WebRequest
                 return (default, validNetworkAccess);
             }
 
+            string contentString;
             if (requestInfo.Method == HttpMethod.Get)
             {
                 var (message, errors) = await Errors.TryTask(RequestGetTask(requestInfo.Config, requestInfo.Uri));
@@ -43,7 +44,8 @@ namespace PythagoraSwitch.WebRequest
                 {
                     return (default, errors);
                 }
-                // TODO:: deserialize                
+
+                contentString = message;
             } else if (requestInfo.Method == HttpMethod.Post)
             {
                 var (message, errors) = await Errors.TryTask(RequestPostTask(requestInfo.Config, requestInfo.Uri, requestInfo.Content));
@@ -51,14 +53,14 @@ namespace PythagoraSwitch.WebRequest
                 {
                     return (default, errors);
                 }
+                contentString = message;
             }
             else
             {
                 return (default, Errors.New($"Un supported method {requestInfo.Method}"));
             }
-
-            // TODO:: fixme
-            return (default, default);
+            
+            return _serializer.Deserialize<IWebResponseContent>(contentString);
         }
         
         private IErrors ValidNetworkAccess()
