@@ -28,7 +28,7 @@ namespace PythagoraSwitch.WebRequest
             _logger = logger;
         }
 
-        public async Task<(IWebResponseContent, IErrors)> Handle(RequestInfo requestInfo)
+        public async Task<(TRes, IErrors)> Handle<TRes>(RequestInfo requestInfo,  Func<RequestInfo, Task<(TRes, IErrors)>> next) where TRes : IWebResponseContent
         {
             var validNetworkAccess = ValidNetworkAccess();
             if (validNetworkAccess != null)
@@ -60,7 +60,7 @@ namespace PythagoraSwitch.WebRequest
                 return (default, Errors.New($"Un supported method {requestInfo.Method}"));
             }
             
-            return _serializer.Deserialize<IWebResponseContent>(contentString);
+            return _serializer.Deserialize<TRes>(contentString);
         }
         
         private IErrors ValidNetworkAccess()

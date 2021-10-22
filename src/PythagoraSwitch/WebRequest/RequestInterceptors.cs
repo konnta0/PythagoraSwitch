@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
 using PythagoraSwitch.WebRequest.Interfaces;
@@ -8,11 +7,11 @@ namespace PythagoraSwitch.WebRequest
 {
     public class RequestInterceptors : IRequestInterceptors
     {
-        private readonly List<IWebRequestInterceptor> _interceptors;
+        private readonly Stack<IWebRequestInterceptor> _interceptors;
 
         public RequestInterceptors()
         {
-            _interceptors = new List<IWebRequestInterceptor>();
+            _interceptors = new Stack<IWebRequestInterceptor>();
         }
 
         public void Add<T>() where T : IWebRequestInterceptor, new()
@@ -22,11 +21,11 @@ namespace PythagoraSwitch.WebRequest
 
         public void Add<T>(T interceptor) where T : IWebRequestInterceptor
         {
-            _interceptors.Add(interceptor);
-            if (_interceptors.Count != 1)
-            {
-                _interceptors[^2].NextFunc = _interceptors.Last().Handle;
-            }
+            _interceptors.Push(interceptor);
+            // if (_interceptors.Count != 1)
+            // {
+            //     _interceptors[^2].NextFunc = _interceptors.Last().Handle;
+            // }
         }
         
         public void AddRange(List<IWebRequestInterceptor> interceptors)
@@ -36,17 +35,31 @@ namespace PythagoraSwitch.WebRequest
 
         public void AddRange(RequestInterceptors requestInterceptors)
         {
-            AddRange(requestInterceptors._interceptors);
+            foreach (var interceptor in requestInterceptors._interceptors)
+            {
+                Add(interceptor);
+            }
         }
 
-        public async Task<(IWebResponseContent, IErrors)> Intercept(RequestInfo requestInfo)
+        public async Task<(TRes, IErrors)> Intercept<TRes>(RequestInfo requestInfo) where TRes : IWebResponseContent
         {
             if (_interceptors.Count == 0)
             {
                 return (default, Errors.New("interceptor is empty."));
             }
 
-            return await _interceptors.First().Handle(requestInfo);
+            var workInterceptors = new Stack<IWebRequestInterceptor>(_interceptors);
+            var next = workInterceptors.Pop().Handle<TRes>(requestInfo, null);
+
+            while (workInterceptors.TryPop(out var interceptor))
+            {
+                var next1 = next;
+                next = interceptor.Handle(requestInfo, info => next1);
+            }
+
+            return await next;
+            
+            // return await _interceptors.First().Handle(requestInfo);
         }
 
         internal int Count => _interceptors.Count;

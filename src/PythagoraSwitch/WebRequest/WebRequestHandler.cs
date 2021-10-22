@@ -60,7 +60,7 @@ namespace PythagoraSwitch.WebRequest
             
             async Task RequestTask()
             {
-                var (response, interceptError) = await interceptors.Intercept(new RequestInfo
+                var (response, interceptError) = await interceptors.Intercept<TRes>(new RequestInfo
                 {
                     Config = _config,
                     Content = body,
@@ -108,7 +108,7 @@ namespace PythagoraSwitch.WebRequest
 
             async Task RequestTask()
             {
-                var (response, interceptError) = await interceptors.Intercept(new RequestInfo
+                var (response, interceptError) = await interceptors.Intercept<TRes>(new RequestInfo
                 {
                     Config = _config,
                     Content = queryObject,

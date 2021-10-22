@@ -13,6 +13,11 @@ namespace PythagoraSwitch.Test.WebRequest
         internal class DummyInterceptor : IWebRequestInterceptor
         {
             public Func<RequestInfo, Task<(IWebResponseContent, IErrors)>> NextFunc { get; set; }
+            public Task<(TRes, IErrors)> Handle<TRes>(RequestInfo requestInfo, Func<RequestInfo, Task<(TRes, IErrors)>> next) where TRes : IWebResponseContent
+            {
+                throw new NotImplementedException();
+            }
+
             public async Task<(IWebResponseContent, IErrors)> Handle(RequestInfo content)
             {
                 await Task.Delay(1);

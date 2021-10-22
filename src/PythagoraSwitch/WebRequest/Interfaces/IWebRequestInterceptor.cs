@@ -8,6 +8,8 @@ namespace PythagoraSwitch.WebRequest.Interfaces
     public interface IWebRequestInterceptor : IInterceptor
     {
         Func<RequestInfo, Task<(IWebResponseContent, IErrors)>> NextFunc { get; set; }
-        Task<(IWebResponseContent, IErrors)> Handle(RequestInfo content);
+
+        Task<(TRes, IErrors)> Handle<TRes>(RequestInfo requestInfo, Func<RequestInfo, Task<(TRes, IErrors)>> next)
+            where TRes : IWebResponseContent;
     }
 }

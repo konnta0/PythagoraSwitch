@@ -1,6 +1,6 @@
 using System;
-using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using konnta0.Exceptions;
 using Moq;
 using PythagoraSwitch.WebRequest;
@@ -23,7 +23,9 @@ namespace PythagoraSwitch.Test.WebRequest
             {
                 hoge = "hogehoge"
             };
-            interceptor.Setup(m => m.Handle(It.IsAny<RequestInfo>()))
+            interceptor.Setup(m => 
+                    m.Handle(It.IsAny<RequestInfo>(),
+                        It.IsAny<Func<RequestInfo, Task<(DummyGetResponseContent, IErrors)>>>()))
                 .ReturnsAsync(() => (dummyResponse, Errors.Nothing()));
             var handler = new WebRequestHandler(
                 loggerMock.Object,
@@ -55,8 +57,10 @@ namespace PythagoraSwitch.Test.WebRequest
             {
                 hoge = "hogehoge"
             };
-            interceptor.Setup(m => m.Handle(It.IsAny<RequestInfo>()))
-                .ReturnsAsync(() => (dummyResponse, Errors.Nothing()));
+            interceptor.Setup(m =>
+                m.Handle(It.IsAny<RequestInfo>(),
+                    It.IsAny<Func<RequestInfo, Task<(DummyPostResponseContent, IErrors)>>>()));
+
 
             var handler = new WebRequestHandler(
                 loggerMock.Object,

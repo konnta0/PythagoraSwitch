@@ -82,7 +82,7 @@ namespace PythagoraSwitch.Test
             Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken);
         }
 
-        public static Mock<IHttpClientFactory> CreatePsHttpClientFactoryMock(HttpMethod httpMethod, string pathAndQuery)
+        public static Mock<IHttpClientFactory> CreateHttpClientFactoryMock(HttpMethod httpMethod, string pathAndQuery)
         {
             var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock.Protected()
