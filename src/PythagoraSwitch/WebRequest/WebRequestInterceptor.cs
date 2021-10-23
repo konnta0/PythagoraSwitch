@@ -63,19 +63,19 @@ namespace PythagoraSwitch.WebRequest
             return _serializer.Deserialize<TRes>(contentString);
         }
         
-        private IErrors ValidNetworkAccess()
+        internal IErrors ValidNetworkAccess()
         {
             return _networkAccess.IsValid() ? Errors.Nothing() : Errors.New<NetworkInformationException>();
         }
 
-        private HttpClient CreateClient(IWebRequestConfig config)
+        internal HttpClient CreateClient(IWebRequestConfig config)
         {
             var client = _httpClientFactory.Create();
             client.Timeout = config.Timeout;
             return client;
         }
         
-        private async Task<(string, IErrors)> RequestGetTask(IWebRequestConfig config, Uri requestUrl)
+        internal async Task<(string, IErrors)> RequestGetTask(IWebRequestConfig config, Uri requestUrl)
         {
             var client = CreateClient(config);
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
@@ -102,7 +102,7 @@ namespace PythagoraSwitch.WebRequest
             return (message, Errors.Nothing());
         }
 
-        private async Task<(string, IErrors)> RequestPostTask(IWebRequestConfig config, Uri requestUrl, IWebRequestContent content)
+        internal async Task<(string, IErrors)> RequestPostTask(IWebRequestConfig config, Uri requestUrl, IWebRequestContent content)
         {
             var (str, serializedError) = _serializer.Serialize(content);
             if (Errors.IsOccurred(serializedError))
