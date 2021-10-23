@@ -9,9 +9,6 @@ namespace PythagoraSwitch.Recorder
 {
     public sealed class RequestInterceptor : IWebRequestInterceptor
     {
-        public Func<RequestInfo, Task<(IWebResponseContent, IErrors)>> NextFunc { get; set; }
-
-
         private readonly IRecorder _recorder;
 
         public RequestInterceptor(IRecorder recorder)
@@ -31,19 +28,6 @@ namespace PythagoraSwitch.Recorder
                 Headers = requestInfo.Headers
             });
             return await next(requestInfo);
-        }
-
-        public Task<(IWebResponseContent, IErrors)> Handle(RequestInfo content)
-        {
-            _recorder.Add(new RequestRecordContent
-            {
-                Method = content.Method.ToString(),
-                EndPoint = content.Uri.ToString(),
-                RequestContent = content.Content,
-                RequestContentType = content.ContentType,
-                Headers = content.Headers
-            });
-            return NextFunc(content);
         }
     }
 }
