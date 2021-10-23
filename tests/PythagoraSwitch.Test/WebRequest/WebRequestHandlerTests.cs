@@ -59,9 +59,9 @@ namespace PythagoraSwitch.Test.WebRequest
             };
             interceptor.Setup(m =>
                 m.Handle(It.IsAny<RequestInfo>(),
-                    It.IsAny<Func<RequestInfo, Task<(DummyPostResponseContent, IErrors)>>>()));
-
-
+                    It.IsAny<Func<RequestInfo, Task<(DummyPostResponseContent, IErrors)>>>()))
+                                .ReturnsAsync(() => (dummyResponse, Errors.Nothing()));
+            
             var handler = new WebRequestHandler(
                 loggerMock.Object,
                 networkAccess.Object,
@@ -72,6 +72,7 @@ namespace PythagoraSwitch.Test.WebRequest
             var (response, error) =
                 await handler.PostAsync<DummyPostRequestContent, DummyPostResponseContent>(
                     new Uri("http://pstest/api/dummy/post"), new DummyPostRequestContent());
+                
             tokenSource.Cancel();
             Assert.False(Errors.IsOccurred(error),
                 $"message: {error?.Exception.Message} \n trace: {error?.Exception.StackTrace}");
