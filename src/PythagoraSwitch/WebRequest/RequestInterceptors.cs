@@ -22,10 +22,6 @@ namespace PythagoraSwitch.WebRequest
         public void Add<T>(T interceptor) where T : IWebRequestInterceptor
         {
             _interceptors.Push(interceptor);
-            // if (_interceptors.Count != 1)
-            // {
-            //     _interceptors[^2].NextFunc = _interceptors.Last().Handle;
-            // }
         }
         
         public void AddRange(List<IWebRequestInterceptor> interceptors)
@@ -58,8 +54,6 @@ namespace PythagoraSwitch.WebRequest
             }
 
             return await next;
-            
-            // return await _interceptors.First().Handle(requestInfo);
         }
 
         internal int Count => _interceptors.Count;
