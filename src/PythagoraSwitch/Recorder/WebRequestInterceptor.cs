@@ -7,11 +7,11 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.Recorder
 {
-    public sealed class RequestInterceptor : IWebRequestInterceptor
+    public sealed class WebRequestInterceptor : IWebRequestRecorderInterceptor
     {
         private readonly IRecorder _recorder;
 
-        public RequestInterceptor(IRecorder recorder)
+        public WebRequestInterceptor(IRecorder recorder)
         {
             _recorder = recorder;
             _recorder.Start();
