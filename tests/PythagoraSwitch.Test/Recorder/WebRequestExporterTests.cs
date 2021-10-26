@@ -4,7 +4,7 @@ using Xunit;
 
 namespace PythagoraSwitch.Test.Recorder
 {
-    public class ExporterTests
+    public class WebRequestExporterTests
     {
         [Fact]
         internal void HandleTest()
