@@ -9,7 +9,7 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public sealed class WebRequestHandler : IWebRequestHandler
+    internal sealed class WebRequestHandler : IWebRequestHandler
     {
         private readonly ILogger<WebRequestHandler> _logger;
         private readonly INetworkAccess _networkAccess;
