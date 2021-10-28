@@ -43,11 +43,6 @@ namespace PythagoraSwitch.Test
             return config;
         }
 
-        public static Mock<ILogger<WebRequestHandler>> CreateLoggerMock()
-        {
-            return new();
-        }
-
         public static Mock<IRequestQueue> CreateRequestQueueMock(CancellationToken token)
         {
             var requestQueue = new Mock<IRequestQueue>();
