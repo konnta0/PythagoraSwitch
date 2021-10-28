@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using PythagoraSwitch.WebRequest;
 using Xunit;
@@ -13,7 +14,7 @@ namespace PythagoraSwitch.Test.WebRequest
         [Fact(Timeout = 300)]
         public async void SimpleGetRequestTest()
         {
-            var loggerMock = TestHelper.CreateLoggerMock();
+            var logger = LoggerFactory.Create<WebRequestHandler>();
             var networkAccess = TestHelper.CreateNetworkAccessMock();
             var config = TestHelper.CreateConfigMock();
             using var tokenSource = new CancellationTokenSource();
@@ -28,7 +29,7 @@ namespace PythagoraSwitch.Test.WebRequest
                         It.IsAny<Func<RequestInfo, Task<(DummyGetResponseContent, IErrors)>>>()))
                 .ReturnsAsync(() => (dummyResponse, Errors.Nothing()));
             var handler = new WebRequestHandler(
-                loggerMock.Object,
+                logger,
                 networkAccess.Object,
                 config.Object,
                 requestQueue.Object,
@@ -47,7 +48,7 @@ namespace PythagoraSwitch.Test.WebRequest
         [Fact(Timeout = 300)]
         public async void SimplePostRequestTest()
         {
-            var loggerMock = TestHelper.CreateLoggerMock();
+            var logger = LoggerFactory.Create<WebRequestHandler>();
             var networkAccess = TestHelper.CreateNetworkAccessMock();
             var config = TestHelper.CreateConfigMock();
             using var tokenSource = new CancellationTokenSource();
@@ -63,7 +64,7 @@ namespace PythagoraSwitch.Test.WebRequest
                                 .ReturnsAsync(() => (dummyResponse, Errors.Nothing()));
             
             var handler = new WebRequestHandler(
-                loggerMock.Object,
+                logger,
                 networkAccess.Object,
                 config.Object,
                 requestQueue.Object,
