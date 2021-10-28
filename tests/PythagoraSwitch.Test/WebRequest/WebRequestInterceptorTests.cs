@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using konnta0.Exceptions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using PythagoraSwitch.WebRequest;
 using PythagoraSwitch.WebRequest.Interfaces;
@@ -14,14 +15,16 @@ namespace PythagoraSwitch.Test.WebRequest
     {
         internal class Config : IWebRequestConfig
         {
-            public TimeSpan Timeout { get; }
-            public int RetryCount { get; }
-            public HttpStatusCode[] RetryHttpStatusCodes { get; }
-            public Func<int, TimeSpan> RetrySleepDurationProvider { get; }
-            public List<KeyValuePair<string, List<string>>> Headers { get; }
+            public TimeSpan Timeout { get; } = TimeSpan.Zero;
+            public int RetryCount { get; } = 0;
+            public HttpStatusCode[] RetryHttpStatusCodes { get; } = Array.Empty<HttpStatusCode>();
+            public Func<int, TimeSpan> RetrySleepDurationProvider { get; } = i => TimeSpan.Zero;
+
+            public List<KeyValuePair<string, List<string>>> Headers { get; } = new();
 
             public Config()
             {
+                
             }
 
             public Config(TimeSpan timeout)
@@ -37,9 +40,17 @@ namespace PythagoraSwitch.Test.WebRequest
         }
 
         [Fact]
-        private void PostTest()
+        private async void PostTaskTest()
         {
-            
+            var httpClientFactory = TestHelper.CreateHttpClientFactoryMock(HttpMethod.Post, "path/to");
+            var logger = LoggerFactory.Create<WebRequestInterceptor>();
+            var webRequestInterceptor = new WebRequestInterceptor(new JsonSerializer(), new EmptyNetworkAccess(), httpClientFactory.Object, logger);
+            var (message, errors) = await webRequestInterceptor.RequestPostTask(
+                new Config(TimeSpan.FromSeconds(10)),
+                new Uri("https://dummy.com/path/to"),
+                new DummyPostRequestContent{foobar = 456});
+            Assert.Equal(Errors.Nothing(), errors);
+            Assert.Equal("{\"hoge\":\"hogehoge\"}", message);
         }
 
         [Fact]
