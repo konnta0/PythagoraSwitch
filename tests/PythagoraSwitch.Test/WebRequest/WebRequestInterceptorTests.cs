@@ -34,9 +34,16 @@ namespace PythagoraSwitch.Test.WebRequest
         }
         
         [Fact]
-        private void GetTest()
+        private async void GetTest()
         {
-
+            var httpClientFactory = TestHelper.CreateHttpClientFactoryMock(HttpMethod.Get, "path/to");
+            var logger = LoggerFactory.Create<WebRequestInterceptor>();
+            var webRequestInterceptor = new WebRequestInterceptor(new JsonSerializer(), new EmptyNetworkAccess(), httpClientFactory.Object, logger);
+            var (message, errors) = await webRequestInterceptor.RequestGetTask(
+                new Config(TimeSpan.FromSeconds(10)),
+                new Uri("https://dummy.com/path/to"));
+            Assert.Equal(Errors.Nothing(), errors);
+            Assert.Equal("{\"hoge\":\"hogehoge\"}", message);
         }
 
         [Fact]
