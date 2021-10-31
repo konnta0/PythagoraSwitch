@@ -59,6 +59,7 @@ namespace PythagoraSwitch.Recorder
         {
             return _exporter.Handle(_recordContents);
         }
-        
+
+        internal List<IRequestRecordContent> RecordContents => _recordContents;
     }
 }

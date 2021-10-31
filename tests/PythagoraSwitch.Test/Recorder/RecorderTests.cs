@@ -1,4 +1,5 @@
-﻿using konnta0.Exceptions;
+﻿using System.Linq;
+using konnta0.Exceptions;
 using PythagoraSwitch.Recorder;
 using Xunit;
 
@@ -30,6 +31,25 @@ namespace PythagoraSwitch.Test.Recorder
 
             _ = recorder.Start();
             Assert.Equal(Errors.Nothing(), recorder.Stop());
+        }
+
+        [Fact]
+        internal void Add()
+        {
+            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
+            Assert.Equal(Errors.Nothing(), recorder.Start());
+            recorder.Add(new RequestRecordContent
+            {
+                EndPoint = "hoge"
+            });
+            Assert.Single(recorder.RecordContents);
+            Assert.Equal("hoge", recorder.RecordContents.First().EndPoint);
+            recorder.Add(new RequestRecordContent
+            {
+                EndPoint = "fuga"
+            });
+            Assert.Equal(2, recorder.RecordContents.Count);
+            Assert.Equal("fuga", recorder.RecordContents.Last().EndPoint);
         }
     }
 }
