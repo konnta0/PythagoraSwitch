@@ -37,6 +37,13 @@ namespace PythagoraSwitch.Test.Recorder
         internal void AddTest()
         {
             var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
+            
+            recorder.Add(new RequestRecordContent
+            {
+                EndPoint = "hoge"
+            });
+            Assert.Empty(recorder.RecordContents);
+            
             Assert.Equal(Errors.Nothing(), recorder.Start());
             recorder.Add(new RequestRecordContent
             {
