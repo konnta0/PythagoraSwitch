@@ -8,7 +8,7 @@ namespace PythagoraSwitch.Test.Recorder
     public class RecorderTests
     {
         [Fact]
-        internal void Start()
+        internal void StartTest()
         {
             var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
             Assert.Equal(Errors.Nothing(), recorder.Start());
@@ -20,7 +20,7 @@ namespace PythagoraSwitch.Test.Recorder
         }
 
         [Fact]
-        internal void Stop()
+        internal void StopTest()
         {
             var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
 
@@ -34,7 +34,7 @@ namespace PythagoraSwitch.Test.Recorder
         }
 
         [Fact]
-        internal void Add()
+        internal void AddTest()
         {
             var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
             Assert.Equal(Errors.Nothing(), recorder.Start());
@@ -50,6 +50,23 @@ namespace PythagoraSwitch.Test.Recorder
             });
             Assert.Equal(2, recorder.RecordContents.Count);
             Assert.Equal("fuga", recorder.RecordContents.Last().EndPoint);
+        }
+
+        [Fact]
+        internal void ClearTest()
+        {
+            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
+            Assert.Equal(Errors.Nothing(), recorder.Start());
+
+            for (var i = 0; i < 10; i++)
+            {
+                recorder.Add(new RequestRecordContent());
+            }
+            Assert.Equal(10, recorder.RecordContents.Count);
+
+            recorder.Clear();
+            
+            Assert.Empty(recorder.RecordContents);
         }
     }
 }
