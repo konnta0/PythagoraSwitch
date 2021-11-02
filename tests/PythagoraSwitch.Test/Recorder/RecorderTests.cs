@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using konnta0.Exceptions;
+using Moq;
 using PythagoraSwitch.Recorder;
+using PythagoraSwitch.Recorder.Interfaces;
 using Xunit;
 
 namespace PythagoraSwitch.Test.Recorder
@@ -74,6 +77,18 @@ namespace PythagoraSwitch.Test.Recorder
             recorder.Clear();
             
             Assert.Empty(recorder.RecordContents);
+        }
+
+        [Fact]
+        internal void ExportTest()
+        {
+            var exporterMock = new Mock<IWebRequestExporter>();
+            exporterMock.Setup(m => m.Handle(It.IsAny<IList<IRequestRecordContent>>()))
+                .Returns(() => ("saved/path", Errors.Nothing()));
+            var recorder = new PythagoraSwitch.Recorder.Recorder(exporterMock.Object);
+            var (path, errors) = recorder.Export();
+            Assert.Equal("saved/path", path);
+            Assert.Equal(Errors.Nothing(), errors);
         }
     }
 }
