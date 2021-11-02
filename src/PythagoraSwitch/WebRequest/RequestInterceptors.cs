@@ -5,7 +5,7 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.WebRequest
 {
-    public class RequestInterceptors : IRequestInterceptors
+    public sealed class RequestInterceptors : IRequestInterceptors
     {
         private readonly Stack<IWebRequestInterceptor> _interceptors;
 
