@@ -4,17 +4,17 @@ using PythagoraSwitch.WebRequest.Interfaces;
 
 namespace PythagoraSwitch.Test
 {
-    public class DummyGetRequestContent : IPsWebGetRequestContent
+    public class DummyGetRequestContent : IWebGetRequestContent
     {
         public int foobar { get; set; }
     }
     
-    public class DummyGetResponseContent : IPsWebResponseContent
+    public class DummyGetResponseContent : IWebResponseContent
     {
         public string hoge { get; set; }
     }
 
-    public class DummyGetRequest : IPsWebGet<DummyGetRequestContent, DummyGetResponseContent>
+    public class DummyGetRequest : IWebGet<DummyGetRequestContent, DummyGetResponseContent>
     {
         public Task<(DummyGetResponseContent, IErrors)> HandleRequest(DummyGetRequestContent req)
         {
@@ -22,17 +22,17 @@ namespace PythagoraSwitch.Test
         }
     }
     
-    public class DummyPostRequestContent : IPsWebPostRequestContent
+    public class DummyPostRequestContent : IWebPostRequestContent
     {
         public int foobar { get; set; }
     }
     
-    public class DummyPostResponseContent : IPsWebResponseContent
+    public class DummyPostResponseContent : IWebResponseContent
     {
         public string hoge { get; set; }
     }
 
-    public class DummyPostRequest : IPsWebPost<DummyPostRequestContent, DummyPostResponseContent>
+    public class DummyPostRequest : IWebPost<DummyPostRequestContent, DummyPostResponseContent>
     {
         public Task<(DummyPostResponseContent, IErrors)> HandleRequest(DummyPostRequestContent req)
         {

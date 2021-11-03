@@ -5,14 +5,14 @@ namespace PythagoraSwitch.Test.Recorder
 {
     internal class DummyWebContent
     {
-        internal class DummyRequestContent : IPsWebRequestContent
+        internal class DummyRequestContent : IWebRequestContent
         {
             public int Id { get; init; }
             public InnerObject innner { get; init; }
         }
         
 
-        internal class DummyResponseContent : IPsWebResponseContent
+        internal class DummyResponseContent : IWebResponseContent
         {
             public string Message { get; init; }
             public List<InnerObject> InnerObjects { get; init; }

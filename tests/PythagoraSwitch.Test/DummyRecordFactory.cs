@@ -8,14 +8,14 @@ namespace PythagoraSwitch.Test
 {
     internal static class DummyRecordFactory
     {
-        public static List<IPsRequestRecordContent> CreateByInterface()
+        public static List<IRequestRecordContent> CreateByInterface()
         {
-            return new List<IPsRequestRecordContent>(Create());;
+            return new List<IRequestRecordContent>(Create());;
         }
         
-        public static List<PsRequestRecordContent> Create()
+        public static List<RequestRecordContent> Create()
         {
-            return new List<PsRequestRecordContent>
+            return new List<RequestRecordContent>
             {
                 new()
                 {
