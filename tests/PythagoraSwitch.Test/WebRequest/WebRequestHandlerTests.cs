@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using konnta0.Exceptions;
-using Microsoft.Extensions.Logging;
 using Moq;
 using PythagoraSwitch.WebRequest;
 using Xunit;
