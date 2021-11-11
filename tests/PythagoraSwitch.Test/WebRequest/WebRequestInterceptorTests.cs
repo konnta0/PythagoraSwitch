@@ -41,7 +41,9 @@ namespace PythagoraSwitch.Test.WebRequest
             var webRequestInterceptor = new WebRequestInterceptor(new JsonSerializer(), new EmptyNetworkAccess(), httpClientFactory.Object, logger);
             var (message, errors) = await webRequestInterceptor.RequestGetTask(
                 new Config(TimeSpan.FromSeconds(10)),
-                new Uri("https://dummy.com/path/to"));
+                new Uri("https://dummy.com/path/to"),
+                new DummyGetRequestContent()
+                );
             Assert.Equal(Errors.Nothing(), errors);
             Assert.Equal("{\"hoge\":\"hogehoge\"}", message);
         }

@@ -39,7 +39,7 @@ namespace PythagoraSwitch.WebRequest
             string contentString;
             if (requestInfo.Method == HttpMethod.Get)
             {
-                var (message, errors) = await Errors.TryTask(RequestGetTask(requestInfo.Config, requestInfo.Uri));
+                var (message, errors) = await Errors.TryTask(RequestGetTask(requestInfo.Config, requestInfo.Uri, (IWebGetRequestContent)requestInfo.Content));
                 if (Errors.IsOccurred(errors))
                 {
                     return (default, errors);
@@ -75,9 +75,10 @@ namespace PythagoraSwitch.WebRequest
             return client;
         }
         
-        internal async Task<(string, IErrors)> RequestGetTask(IWebRequestConfig config, Uri requestUrl)
+        internal async Task<(string, IErrors)> RequestGetTask(IWebRequestConfig config, Uri url, IWebGetRequestContent content)
         {
             var client = CreateClient(config);
+            var requestUrl = $"{url}&{content.ToQueryString()}";
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUrl);
             foreach (var (key, value) in config.Headers)
             {
