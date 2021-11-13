@@ -17,7 +17,7 @@ namespace PythagoraSwitch.Test
         {
             return new List<RequestRecordContent>
             {
-                new()
+                new RequestRecordContent
                 {
                     Interval = new TimeSpan(0),
                     EndPoint = "api/dummy/path",
@@ -33,7 +33,7 @@ namespace PythagoraSwitch.Test
                     RequestContentType = typeof(DummyWebContent.DummyRequestContent)
                 }
                 ,
-                new()
+                new RequestRecordContent
                 {
                     Interval = new TimeSpan(20),
                     EndPoint = "api/dummy/path",

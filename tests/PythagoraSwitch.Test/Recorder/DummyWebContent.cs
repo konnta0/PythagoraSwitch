@@ -7,20 +7,20 @@ namespace PythagoraSwitch.Test.Recorder
     {
         internal class DummyRequestContent : IWebRequestContent
         {
-            public int Id { get; init; }
-            public InnerObject innner { get; init; }
+            public int Id { get; set; }
+            public InnerObject innner { get; set; }
         }
         
 
         internal class DummyResponseContent : IWebResponseContent
         {
-            public string Message { get; init; }
-            public List<InnerObject> InnerObjects { get; init; }
+            public string Message { get; set; }
+            public List<InnerObject> InnerObjects { get; set; }
         }
 
         internal class InnerObject
         {
-            public string InnerMessage { get; init; }
+            public string InnerMessage { get; set; }
         }
     }
 }

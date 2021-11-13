@@ -26,7 +26,10 @@ namespace PythagoraSwitch.Test.Recorder
                 Uri = new Uri("https://hoge.com/dummy/path"),
                 Config = new WebRequest.WebRequestInterceptorTests.Config(),
                 Content = new DummyWebContent.DummyRequestContent(),
-                Headers = new List<KeyValuePair<string, List<string>>>{new("dummy-header", new List<string>{"dummy-value"})},
+                Headers = new List<KeyValuePair<string, List<string>>>
+                {
+                    new KeyValuePair<string, List<string>>("dummy-header", new List<string>{"dummy-value"})
+                },
                 ContentType = typeof(DummyWebContent.DummyRequestContent),
                 Method = HttpMethod.Post
             }, EmptyNext);

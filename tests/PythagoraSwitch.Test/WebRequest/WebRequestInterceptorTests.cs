@@ -20,7 +20,8 @@ namespace PythagoraSwitch.Test.WebRequest
             public HttpStatusCode[] RetryHttpStatusCodes { get; } = Array.Empty<HttpStatusCode>();
             public Func<int, TimeSpan> RetrySleepDurationProvider { get; } = i => TimeSpan.Zero;
 
-            public List<KeyValuePair<string, List<string>>> Headers { get; } = new();
+            public List<KeyValuePair<string, List<string>>> Headers { get; } =
+                new List<KeyValuePair<string, List<string>>>();
 
             public Config()
             {
