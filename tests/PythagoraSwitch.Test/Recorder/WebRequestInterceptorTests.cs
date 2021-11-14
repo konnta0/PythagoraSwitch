@@ -37,7 +37,9 @@ namespace PythagoraSwitch.Test.Recorder
             Assert.NotNull(response);
         }
 
+#pragma warning disable 1998
         private async Task<(DummyWebContent.DummyResponseContent, IErrors)> EmptyNext(RequestInfo _)
+#pragma warning restore 1998
         {
             return (new DummyWebContent.DummyResponseContent(), Errors.Nothing());
         }
