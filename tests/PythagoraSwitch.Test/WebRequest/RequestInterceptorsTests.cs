@@ -10,7 +10,7 @@ namespace PythagoraSwitch.Test.WebRequest
 {
     public class RequestInterceptorsTests
     {
-        internal class DummyInterceptor : IWebRequestInterceptor
+        private class DummyInterceptor : IWebRequestInterceptor
         {
             public Task<(TRes, IErrors)> Handle<TRes>(RequestInfo requestInfo, Func<RequestInfo, Task<(TRes, IErrors)>> next) where TRes : IWebResponseContent
             {

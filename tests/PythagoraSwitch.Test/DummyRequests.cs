@@ -14,14 +14,6 @@ namespace PythagoraSwitch.Test
         public string hoge { get; set; }
     }
 
-    public class DummyGetRequest : IWebGet<DummyGetRequestContent, DummyGetResponseContent>
-    {
-        public Task<(DummyGetResponseContent, IErrors)> HandleRequest(DummyGetRequestContent req)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-    
     public class DummyPostRequestContent : IWebPostRequestContent
     {
         public int foobar { get; set; }
@@ -31,13 +23,4 @@ namespace PythagoraSwitch.Test
     {
         public string hoge { get; set; }
     }
-
-    public class DummyPostRequest : IWebPost<DummyPostRequestContent, DummyPostResponseContent>
-    {
-        public Task<(DummyPostResponseContent, IErrors)> HandleRequest(DummyPostRequestContent req)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-    
 }
