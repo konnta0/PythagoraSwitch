@@ -40,6 +40,14 @@ namespace PythagoraSwitch.Test
                     Method = "GET",
                     RequestContent = new DummyWebContent.DummyRequestContent(),
                     RequestContentType = typeof(DummyWebContent.DummyRequestContent)
+                },
+                new RequestRecordContent
+                {
+                    Interval = new TimeSpan(20),
+                    EndPoint = "api/dummy/post",
+                    Method = "POST",
+                    RequestContent = new DummyWebContent.DummyRequestContent(),
+                    RequestContentType = typeof(DummyWebContent.DummyRequestContent)
                 }
             };
         }
