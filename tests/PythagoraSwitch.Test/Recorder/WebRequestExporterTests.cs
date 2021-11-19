@@ -31,6 +31,10 @@ namespace PythagoraSwitch.Test.Recorder
             var recordContents = DummyRecordFactory.CreateByInterface();
             var scenarioName = "DummyScenario";
             var (path, errors) = exporter.Handle(scenarioName, recordContents);
+            if (Errors.IsOccurred(errors))
+            {
+                _testOutputHelper.WriteLine(errors.ToString());
+            }
             Assert.False(Errors.IsOccurred(errors));
             Assert.Contains($"{scenarioName}.Generated.cs", path);
             _testOutputHelper.WriteLine(File.ReadAllText(path));
