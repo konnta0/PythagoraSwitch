@@ -13,7 +13,7 @@ namespace PythagoraSwitch.Test.Recorder
         [Fact]
         internal void StartTest()
         {
-            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
+            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), new ScenarioTemplate(), LoggerFactory.Create<WebRequestExporter>()));
             Assert.Equal(Errors.Nothing(), recorder.Start());
 
             // already started
@@ -25,7 +25,7 @@ namespace PythagoraSwitch.Test.Recorder
         [Fact]
         internal void StopTest()
         {
-            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
+            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), new ScenarioTemplate(), LoggerFactory.Create<WebRequestExporter>()));
 
             // not started
             var error = recorder.Stop();
@@ -39,7 +39,7 @@ namespace PythagoraSwitch.Test.Recorder
         [Fact]
         internal void AddTest()
         {
-            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
+            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), new ScenarioTemplate(), LoggerFactory.Create<WebRequestExporter>()));
             
             recorder.Add(new RequestRecordContent
             {
@@ -65,7 +65,7 @@ namespace PythagoraSwitch.Test.Recorder
         [Fact]
         internal void ClearTest()
         {
-            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), LoggerFactory.Create<WebRequestExporter>()));
+            var recorder = new PythagoraSwitch.Recorder.Recorder(new WebRequestExporter(new DefaultExporterConfig(), new ScenarioTemplate(), LoggerFactory.Create<WebRequestExporter>()));
             Assert.Equal(Errors.Nothing(), recorder.Start());
 
             for (var i = 0; i < 10; i++)
